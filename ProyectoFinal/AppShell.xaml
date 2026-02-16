@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ProyectoFinal.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ProyectoFinal.Views"
+    Title="HighValuePay"
+    FlyoutBehavior="Disabled">
+
+    <!-- Login -->
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage"
+        Shell.NavBarIsVisible="False" />
+
+    <!-- Menu Principal -->
+    <ShellContent
+        Title="Menu"
+        ContentTemplate="{DataTemplate views:MenuPage}"
+        Route="MenuPage" />
+
+    <ShellContent
+        Title="Ayuda"
+        ContentTemplate="{DataTemplate views:AyudaPage}"
+        Route="AyudaPage" />
+
+</Shell>

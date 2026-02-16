@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.LoginPage"
+             Title="Login"
+             BackgroundColor="{StaticResource Gray100}">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <Label
+                Text="HighValuePay"
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}" />
+
+            <Label
+                Text="Inicia sesion para continuar"
+                FontSize="16"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Gray600}" />
+
+            <Frame
+                Padding="20"
+                CornerRadius="10"
+                BorderColor="Transparent"
+                BackgroundColor="White"
+                HasShadow="True">
+                
+                <VerticalStackLayout Spacing="15">
+                    
+                    <Label Text="Email" FontAttributes="Bold" />
+                    <Entry
+                        x:Name="EmailEntry"
+                        Placeholder="correo@ejemplo.com"
+                        Keyboard="Email"
+                        ClearButtonVisibility="WhileEditing" />
+
+                    <Label Text="Contrasena" FontAttributes="Bold" />
+                    <Entry
+                        x:Name="PasswordEntry"
+                        Placeholder="Tu contrasena"
+                        IsPassword="True" />
+
+                    <Button
+                        x:Name="LoginButton"
+                        Text="Iniciar Sesion"
+                        Clicked="OnLoginClicked"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        CornerRadius="10"
+                        Margin="0,10,0,0" />
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout 
+                HorizontalOptions="Center"
+                Spacing="5">
+                <Label 
+                    Text="No tienes cuenta?"
+                    TextColor="{StaticResource Gray600}" />
+                <Label 
+                    Text="Registrate"
+                    TextColor="{StaticResource Primary}"
+                    FontAttributes="Bold"
+                    TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegistroTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

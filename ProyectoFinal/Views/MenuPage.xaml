@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.MenuPage"
+             Title="Menu Principal">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            Spacing="15"
+            VerticalOptions="Start">
+
+            <Label
+                Text="HighValuePay"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}" />
+
+            <Label
+                Text="Menu Principal"
+                FontSize="18"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Gray500}"
+                Margin="0,0,0,20" />
+
+            <Button
+                Text="Gestion de Compras"
+                Clicked="OnGestionComprasClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Registro de Abonos"
+                Clicked="OnAbonosClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Consultas"
+                Clicked="OnConsultasClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Reporte General"
+                Clicked="OnReporteClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Notificaciones por Correo"
+                Clicked="OnNotificacionesClicked"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Ayuda"
+                Clicked="OnAyudaClicked"
+                BackgroundColor="{StaticResource Secondary}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50" />
+
+            <Button
+                Text="Cerrar Sesion"
+                Clicked="OnLogoutClicked"
+                BackgroundColor="{StaticResource Gray500}"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                Margin="0,20,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
