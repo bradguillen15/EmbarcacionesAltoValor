@@ -31,11 +31,11 @@ public partial class RegistroPage : ContentPage
         await DisplayAlert("Registro Exitoso", 
             $"Nombre: {nombre}\nEmail: {email}\n\nCuenta creada correctamente", "OK");
 
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Navigation.PopToRootAsync();
     }
 
     private async void OnLoginTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Navigation.PopAsync();
     }
 }

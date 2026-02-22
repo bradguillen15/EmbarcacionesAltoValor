@@ -17,7 +17,7 @@
                 TextColor="{StaticResource Primary}" />
 
             <Label
-                Text="¿Necesitas ayuda? Contáctanos"
+                Text="ï¿½Necesitas ayuda? Contï¿½ctanos"
                 FontSize="16"
                 HorizontalOptions="Center"
                 TextColor="{StaticResource Gray500}"
@@ -30,17 +30,17 @@
                 Margin="0,10,0,10" />
 
             <Label
-                Text="¿Cómo registrar una compra?"
+                Text="ï¿½Cï¿½mo registrar una compra?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
-                Text="Ve a 'Gestión de Compras' y completa los datos del artículo adquirido."
+                Text="Ve a 'Gestiï¿½n de Compras' y completa los datos del artï¿½culo adquirido."
                 FontSize="14"
                 TextColor="{StaticResource Gray500}"
                 Margin="0,0,0,15" />
 
             <Label
-                Text="¿Cómo realizar un abono?"
+                Text="ï¿½Cï¿½mo realizar un abono?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -50,7 +50,7 @@
                 Margin="0,0,0,15" />
 
             <Label
-                Text="¿Cómo consultar mi historial?"
+                Text="ï¿½Cï¿½mo consultar mi historial?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -60,7 +60,7 @@
                 Margin="0,0,0,20" />
 
             <Label
-                Text="Información de Contacto"
+                Text="Informaciï¿½n de Contacto"
                 FontSize="20"
                 FontAttributes="Bold"
                 Margin="0,10,0,10" />
@@ -76,7 +76,7 @@
                 Margin="0,0,0,10" />
 
             <Label
-                Text="Teléfono:"
+                Text="Telï¿½fono:"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -86,7 +86,7 @@
                 Margin="0,0,0,10" />
 
             <Label
-                Text="Horario de Atención:"
+                Text="Horario de Atenciï¿½n:"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label

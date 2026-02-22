@@ -9,32 +9,32 @@ public partial class MenuPage : ContentPage
 
     private async void OnGestionComprasClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(GestionComprasPage));
+        await Navigation.PushAsync(new GestionComprasPage());
     }
 
     private async void OnAbonosClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(AbonosPage));
+        await Navigation.PushAsync(new AbonosPage());
     }
 
     private async void OnConsultasClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ConsultasPage));
+        await Navigation.PushAsync(new ConsultasPage());
     }
 
     private async void OnReporteClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ReportePage));
+        await Navigation.PushAsync(new ReportePage());
     }
 
     private async void OnNotificacionesClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(NotificacionesPage));
+        await Navigation.PushAsync(new NotificacionesPage());
     }
 
     private async void OnAyudaClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//AyudaPage");
+        await Navigation.PushAsync(new AyudaPage());
     }
 
     private async void OnLogoutClicked(object sender, EventArgs e)
@@ -43,7 +43,7 @@ public partial class MenuPage : ContentPage
         
         if (confirm)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
     }
 }

@@ -20,11 +20,11 @@ public partial class LoginPage : ContentPage
 
         await DisplayAlert("Datos de Login", $"Email: {email}\nContrasena: {password}", "OK");
 
-        await Shell.Current.GoToAsync("//MenuPage");
+        Application.Current.MainPage = new NavigationPage(new MenuPage());
     }
 
     private async void OnRegistroTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("RegistroPage");
+        await Navigation.PushAsync(new RegistroPage());
     }
 }

@@ -9,6 +9,6 @@ public partial class AyudaPage : ContentPage
 
     private async void OnVolverClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//MenuPage");
+        await Navigation.PopAsync();
     }
 }
