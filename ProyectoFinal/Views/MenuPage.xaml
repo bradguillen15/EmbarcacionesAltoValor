@@ -2,97 +2,252 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.MenuPage"
-             Title="Menu Principal">
+             Title="Menu Principal"
+             BackgroundColor="{StaticResource LightSea}">
 
     <ScrollView>
         <VerticalStackLayout
-            Padding="30"
-            Spacing="15"
+            Padding="20"
+            Spacing="20"
             VerticalOptions="Start">
 
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Spacing="10"
-                Margin="0,0,0,10">
+            <Frame
+                Padding="15"
+                CornerRadius="15"
+                BorderColor="Transparent"
+                BackgroundColor="White"
+                HasShadow="True"
+                HorizontalOptions="Center">
                 
                 <Image
                     Source="logo.jpeg"
-                    HeightRequest="40"
-                    WidthRequest="40"
-                    Aspect="AspectFit"
-                    VerticalOptions="Center" />
-                
-                <Label
-                    Text="Pura Vida Yatchs"
-                    FontSize="28"
-                    FontAttributes="Bold"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource Primary}" />
-            </HorizontalStackLayout>
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    Aspect="AspectFit" />
+            </Frame>
 
             <Label
-                Text="Men&#250; Principal"
-                FontSize="18"
+                Text="Pura Vida Yatchs"
+                FontSize="28"
+                FontAttributes="Bold"
                 HorizontalOptions="Center"
-                TextColor="{StaticResource Gray500}"
-                Margin="0,0,0,20" />
+                TextColor="{StaticResource Primary}"/>
+            <Frame Padding="20,20,20,20" 
+                   CornerRadius="15" 
+                   BorderColor="Transparent" 
+                   HasShadow="True" 
+                   BackgroundColor="{StaticResource White}">
+                <VerticalStackLayout Spacing="2">
+                    
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x1F6CD;&#xFE0F;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Gesti&#243;n de Compras" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Primary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnGestionComprasClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
 
-            <Button
-                Text="Gestion de Compras"
-                Clicked="OnGestionComprasClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <BoxView HeightRequest="1" 
+                             Color="{StaticResource LightSea}" 
+                             HorizontalOptions="Fill"
+                             Margin="-20,0,-20,0"/>
 
-            <Button
-                Text="Registro de Abonos"
-                Clicked="OnAbonosClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x1F4B5;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Registro de Abonos" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Primary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAbonosClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
 
-            <Button
-                Text="Consultas"
-                Clicked="OnConsultasClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <BoxView HeightRequest="1" 
+                             Color="{StaticResource LightSea}" 
+                             HorizontalOptions="Fill"
+                             Margin="-20,0,-20,0"/>
 
-            <Button
-                Text="Reporte General"
-                Clicked="OnReporteClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x1F4CB;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Consultas" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Primary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnConsultasClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
 
-            <Button
-                Text="Notificaciones por Correo"
-                Clicked="OnNotificacionesClicked"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <BoxView HeightRequest="1" 
+                             Color="{StaticResource LightSea}" 
+                             HorizontalOptions="Fill"
+                             Margin="-20,0,-20,0"/>
 
-            <Button
-                Text="Ayuda"
-                Clicked="OnAyudaClicked"
-                BackgroundColor="{StaticResource Secondary}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50" />
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x1F4CA;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Reporte General" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Primary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnReporteClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
 
-            <Button
-                Text="Cerrar Sesion"
-                Clicked="OnLogoutClicked"
-                BackgroundColor="{StaticResource Gray500}"
-                TextColor="White"
-                CornerRadius="10"
-                HeightRequest="50"
-                Margin="0,20,0,0" />
+                    <BoxView HeightRequest="1" 
+                             Color="{StaticResource LightSea}" 
+                             HorizontalOptions="Fill"
+                             Margin="-20,0,-20,0"/>
+
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x2709;&#xFE0F;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Notificaciones por Correo" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Primary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnNotificacionesClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
+
+                    <BoxView HeightRequest="1" 
+                             Color="{StaticResource LightSea}" 
+                             HorizontalOptions="Fill"
+                             Margin="-20,0,-20,0"/>
+
+                    <Frame Padding="0" 
+                           CornerRadius="10" 
+                           BorderColor="Transparent" 
+                           BackgroundColor="White" 
+                           HasShadow="False" 
+                           Margin="0">
+                        <Grid Padding="10" 
+                              ColumnDefinitions="50,*" 
+                              ColumnSpacing="15">
+                            <Label Text="&#x2753;" 
+                                   FontSize="28" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Label Text="Ayuda" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   VerticalOptions="Center" 
+                                   TextColor="{StaticResource Secondary}" 
+                                   Grid.Column="1"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAyudaClicked"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Padding="0" 
+                   CornerRadius="12" 
+                   BorderColor="{StaticResource Ocean600}" 
+                   HasShadow="True" 
+                   Margin="0,10,0,0">
+                <Grid Padding="15" 
+                      ColumnDefinitions="50,*" 
+                      ColumnSpacing="15" 
+                      BackgroundColor="{StaticResource White}">
+                    <Label Text="&#x1F6AA;" 
+                           FontSize="28" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="0"/>
+                    <Label Text="Cerrar Sesi&#243;n" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           VerticalOptions="Center" 
+                           TextColor="{StaticResource Ocean600}" 
+                           Grid.Column="1"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLogoutClicked"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Frame>
 
         </VerticalStackLayout>
     </ScrollView>
