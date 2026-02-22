@@ -11,15 +11,31 @@
             Spacing="20"
             VerticalOptions="Center">
 
+            <Frame
+                Padding="15"
+                CornerRadius="15"
+                BorderColor="Transparent"
+                BackgroundColor="White"
+                HasShadow="True"
+                HorizontalOptions="Center"
+                Margin="0,0,0,10">
+                
+                <Image
+                    Source="logo.jpeg"
+                    HeightRequest="150"
+                    WidthRequest="150"
+                    Aspect="AspectFit" />
+            </Frame>
+
             <Label
-                Text="HighValuePay"
+                Text="Pura Vida Yatchs"
                 FontSize="32"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
                 TextColor="{StaticResource Primary}" />
 
             <Label
-                Text="Inicia sesion para continuar"
+                Text="Inicia sesi&#243;n para continuar"
                 FontSize="16"
                 HorizontalOptions="Center"
                 TextColor="{StaticResource Gray600}" />

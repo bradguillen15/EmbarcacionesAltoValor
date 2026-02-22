@@ -1,182 +1,41 @@
-# EmbarcacionesAltoValor
+Ôªø# Pura Vida Yatchs
 
-Sistema de gestiÛn financiera para embarcaciones de alto valor. AplicaciÛn mÛvil desarrollada con .NET MAUI para el control de compras, abonos y reportes.
+**Sistema de gesti√≥n financiera para embarcaciones de alto valor**
 
-## ?? CaracterÌsticas
+Aplicaci√≥n m√≥vil desarrollada con .NET MAUI para el control de compras, abonos y reportes de embarcaciones.
 
-- **GestiÛn de Compras**: Registro y seguimiento de compras de embarcaciones
-- **Registro de Abonos**: Control de pagos y abonos realizados
-- **Consultas**: Historial completo de transacciones
-- **Reportes Generales**: VisualizaciÛn de estados financieros
-- **Notificaciones**: Sistema de alertas por correo electrÛnico
-- **Ayuda y Soporte**: InformaciÛn de contacto y preguntas frecuentes
+## üö¢ Caracter√≠sticas
 
-## ??? TecnologÌas
+- Gesti√≥n de Compras de embarcaciones
+- Registro de Abonos y pagos
+- Consultas de historial de transacciones
+- Reportes financieros
+- Sistema de notificaciones
 
-- **.NET 10**
-- **.NET MAUI** (Multi-platform App UI)
-- **C# 14.0**
-- **XAML** para diseÒo de interfaces
+## üõ†Ô∏è Tecnolog√≠as
 
-## ?? Requisitos Previos
+- .NET 10
+- .NET MAUI
+- C# 14.0
 
-Antes de ejecutar el proyecto, aseg˙rate de tener instalado:
+## üìã Requisitos
 
-### Windows
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) (versiÛn 17.13 o superior)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) (v17.13+)
 - Carga de trabajo: **.NET Multi-platform App UI development**
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 
-### macOS
-- [Visual Studio 2022 para Mac](https://visualstudio.microsoft.com/vs/mac/) o [Visual Studio Code](https://code.visualstudio.com/)
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Xcode (para desarrollo iOS)
-
-## ?? InstalaciÛn
-
-### 1. Clonar el repositorio
+## üöÄ Instalaci√≥n
 
 ```bash
-git clone https://github.com/tu-usuario/EmbarcacionesAltoValor.git
+git clone https://github.com/bradguillen15/EmbarcacionesAltoValor.git
 cd EmbarcacionesAltoValor
-```
-
-### 2. Restaurar dependencias
-
-```bash
 dotnet restore
-```
-
-### 3. Compilar el proyecto
-
-```bash
 dotnet build
 ```
 
-## ?? EjecuciÛn
+## ‚ñ∂Ô∏è Ejecutar
 
-### Visual Studio 2022
+1. Abre `ProyectoFinal.sln` en Visual Studio
+2. Selecciona plataforma (Android/iOS/Windows)
+3. Presiona **F5**
 
-1. Abre la soluciÛn `ProyectoFinal.sln` en Visual Studio
-2. Selecciona la plataforma de destino (Android, iOS, Windows, macOS)
-3. Presiona **F5** o haz clic en el botÛn **Run**
-
-### LÌnea de comandos
-
-#### Android
-```bash
-dotnet build -t:Run -f net10.0-android
-```
-
-#### iOS (requiere macOS)
-```bash
-dotnet build -t:Run -f net10.0-ios
-```
-
-#### Windows
-```bash
-dotnet build -t:Run -f net10.0-windows10.0.19041.0
-```
-
-#### macOS
-```bash
-dotnet build -t:Run -f net10.0-maccatalyst
-```
-
-## ?? Plataformas Soportadas
-
-- ? **Android** 5.0 (API 21) o superior
-- ? **iOS** 15.0 o superior
-- ? **Windows** 10.0.17763.0 o superior
-- ? **macOS** 15.0 o superior (Mac Catalyst)
-
-## ??? Estructura del Proyecto
-
-```
-EmbarcacionesAltoValor/
-??? ProyectoFinal/
-?   ??? Views/              # P·ginas XAML de la aplicaciÛn
-?   ?   ??? LoginPage.xaml
-?   ?   ??? MenuPage.xaml
-?   ?   ??? RegistroPage.xaml
-?   ?   ??? AyudaPage.xaml
-?   ?   ??? ...
-?   ??? Resources/          # Recursos (im·genes, estilos, fuentes)
-?   ?   ??? Styles/
-?   ?   ??? Images/
-?   ?   ??? Fonts/
-?   ??? AppShell.xaml       # Shell de navegaciÛn
-?   ??? App.xaml            # AplicaciÛn principal
-?   ??? MauiProgram.cs      # Punto de entrada
-??? README.md
-```
-
-## ?? Tema de Colores
-
-La aplicaciÛn utiliza un tema n·utico con escala de azules:
-
-- **Primary**: `#0277BD` - Azul ocÈano
-- **Secondary**: `#4FC3F7` - Azul cielo
-- **Tertiary**: `#006064` - Verde azulado profundo
-
-## ?? ConfiguraciÛn Adicional
-
-### Android
-
-Para ejecutar en Android, necesitas:
-- Android SDK instalado
-- Emulador Android configurado o dispositivo fÌsico conectado
-
-### iOS
-
-Para ejecutar en iOS, necesitas:
-- macOS con Xcode instalado
-- Certificados de desarrollo de Apple configurados
-- Simulador iOS o dispositivo fÌsico
-
-### Windows
-
-Para ejecutar en Windows:
-- Windows 10 versiÛn 1809 (build 17763) o superior
-- Windows SDK instalado
-
-## ?? Soporte
-
-Si necesitas ayuda, contacta:
-
-- **Email**: soporte@highvaluepay.com
-- **TelÈfono**: +506 0000-0000
-- **Horario**: Lunes a Viernes, 8:00 AM - 6:00 PM
-
-## ?? Licencia
-
-Este proyecto es parte de un trabajo acadÈmico/privado.
-
-## ?? Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Haz fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## ?? ActualizaciÛn de Dependencias
-
-Para actualizar las dependencias de NuGet:
-
-```bash
-dotnet restore
-dotnet list package --outdated
-dotnet add package [PackageName] --version [Version]
-```
-
-## ?? Problemas Conocidos
-
-- La navegaciÛn absoluta a rutas globales puede causar errores. Usar navegaciÛn relativa para p·ginas registradas con `Routing.RegisterRoute()`
-- Las tildes en XAML deben usar entidades XML (`&#225;` para ·) para compatibilidad multiplataforma
-
-## ?? Estado del Proyecto
-
-?? En desarrollo activo

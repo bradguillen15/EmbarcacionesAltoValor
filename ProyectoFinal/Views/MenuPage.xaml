@@ -10,15 +10,28 @@
             Spacing="15"
             VerticalOptions="Start">
 
-            <Label
-                Text="HighValuePay"
-                FontSize="28"
-                FontAttributes="Bold"
+            <HorizontalStackLayout
                 HorizontalOptions="Center"
-                TextColor="{StaticResource Primary}" />
+                Spacing="10"
+                Margin="0,0,0,10">
+                
+                <Image
+                    Source="logo.jpeg"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    Aspect="AspectFit"
+                    VerticalOptions="Center" />
+                
+                <Label
+                    Text="Pura Vida Yatchs"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center"
+                    TextColor="{StaticResource Primary}" />
+            </HorizontalStackLayout>
 
             <Label
-                Text="Menu Principal"
+                Text="Men&#250; Principal"
                 FontSize="18"
                 HorizontalOptions="Center"
                 TextColor="{StaticResource Gray500}"

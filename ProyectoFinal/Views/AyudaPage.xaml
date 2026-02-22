@@ -17,7 +17,7 @@
                 TextColor="{StaticResource Primary}" />
 
             <Label
-                Text="�Necesitas ayuda? Cont�ctanos"
+                Text="&#191;Necesitas ayuda? Cont&#225;ctanos"
                 FontSize="16"
                 HorizontalOptions="Center"
                 TextColor="{StaticResource Gray500}"
@@ -30,17 +30,17 @@
                 Margin="0,10,0,10" />
 
             <Label
-                Text="�C�mo registrar una compra?"
+                Text="&#191;C&#243;mo registrar una compra?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
-                Text="Ve a 'Gesti�n de Compras' y completa los datos del art�culo adquirido."
+                Text="Ve a 'Gesti&#243;n de Compras' y completa los datos del art&#237;culo adquirido."
                 FontSize="14"
                 TextColor="{StaticResource Gray500}"
                 Margin="0,0,0,15" />
 
             <Label
-                Text="�C�mo realizar un abono?"
+                Text="&#191;C&#243;mo realizar un abono?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -50,7 +50,7 @@
                 Margin="0,0,0,15" />
 
             <Label
-                Text="�C�mo consultar mi historial?"
+                Text="&#191;C&#243;mo consultar mi historial?"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -60,7 +60,7 @@
                 Margin="0,0,0,20" />
 
             <Label
-                Text="Informaci�n de Contacto"
+                Text="Informaci&#243;n de Contacto"
                 FontSize="20"
                 FontAttributes="Bold"
                 Margin="0,10,0,10" />
@@ -70,13 +70,13 @@
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
-                Text="soporte@highvaluepay.com"
+                Text="soporte@puravidayatchs.com"
                 FontSize="14"
                 TextColor="{StaticResource Gray500}"
                 Margin="0,0,0,10" />
 
             <Label
-                Text="Tel�fono:"
+                Text="Tel&#233;fono:"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -86,7 +86,7 @@
                 Margin="0,0,0,10" />
 
             <Label
-                Text="Horario de Atenci�n:"
+                Text="Horario de Atenci&#243;n:"
                 FontSize="16"
                 FontAttributes="Bold" />
             <Label
@@ -96,7 +96,7 @@
                 Margin="0,0,0,20" />
 
             <Button
-                Text="Volver al Menu"
+                Text="Volver al Men&#250;"
                 Clicked="OnVolverClicked"
                 BackgroundColor="{StaticResource Primary}"
                 TextColor="White"
