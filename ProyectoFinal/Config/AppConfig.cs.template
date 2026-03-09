@@ -1,0 +1,12 @@
+namespace ProyectoFinal.Config;
+
+// INSTRUCCIONES:
+// 1. Copia este archivo y renómbralo a "AppConfig.cs"
+// 2. Reemplaza los valores de SupabaseUrl y SupabaseAnonKey con tus credenciales reales
+// 3. NO comitees el archivo AppConfig.cs al repositorio
+
+public static class AppConfig
+{
+    public const string SupabaseUrl = "TU_SUPABASE_URL_AQUI";
+    public const string SupabaseAnonKey = "TU_SUPABASE_ANON_KEY_AQUI";
+}
