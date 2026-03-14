@@ -13,13 +13,14 @@ jobs:
     if: |
       (github.event_name == 'pull_request') ||
       (github.event_name == 'issue_comment' &&
-       github.event.issue.pull_request &&
+       github.event.issue.pull_request != null &&
        contains(github.event.comment.body, '@claude'))
 
     permissions:
       contents: read
       pull-requests: write
       issues: write
+      id-token: write
 
     steps:
       - name: Checkout
@@ -28,12 +29,10 @@ jobs:
           fetch-depth: 1
 
       - name: Claude Code Review
-        uses: anthropics/claude-code-action@beta
+        uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Prompt personalizado para este proyecto .NET MAUI
-          direct_prompt: |
+          prompt: |
             Revisa este Pull Request para el proyecto EmbarcacionesAltoValor (.NET MAUI / C#).
 
             Enfócate en:

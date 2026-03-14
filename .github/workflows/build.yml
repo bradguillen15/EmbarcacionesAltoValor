@@ -30,7 +30,7 @@ jobs:
           sed -i 's|TU_SUPABASE_ANON_KEY_AQUI|${{ secrets.SUPABASE_ANON_KEY }}|g' ProyectoFinal/Config/AppConfig.cs
 
       - name: Restore dependencies
-        run: dotnet restore ProyectoFinal/ProyectoFinal.csproj
+        run: dotnet restore ProyectoFinal/ProyectoFinal.csproj -p:TargetFramework=net10.0-android
 
       - name: Build
         run: dotnet build ProyectoFinal/ProyectoFinal.csproj -f net10.0-android -c Release --no-restore
