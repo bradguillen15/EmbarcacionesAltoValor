@@ -2,26 +2,156 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.GestionComprasPage"
-             Title="Gestion de Compras">
+             Title="Gestion de Compras"
+             BackgroundColor="{StaticResource LightSea}">
 
-    <VerticalStackLayout
-        Padding="30"
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
 
-        <Label
-            Text="Gestion de Compras"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
+            
+            <Label
+                Text="Gestión de Compras"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}"/>
 
-        <Label
-            Text="Pagina en construccion..."
-            FontSize="16"
-            TextColor="Gray"
-            HorizontalOptions="Center"
-            Margin="0,20,0,0" />
+            <Label
+                Text="Pura Vida Yatchs"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}"/>
+            
+            
+            <Frame Padding="20,20,20,20" 
+               CornerRadius="15" 
+               BorderColor="Transparent" 
+               HasShadow="True" 
+               BackgroundColor="{StaticResource White}"/>
 
-    </VerticalStackLayout>
+            <VerticalStackLayout Spacing="2">
+                <Frame Padding="0" 
+                   CornerRadius="10" 
+                   BorderColor="Transparent" 
+                   BackgroundColor="White" 
+                   HasShadow="False" 
+                   Margin="0">
+                    <Grid Padding="10" 
+                      ColumnDefinitions="50,*" 
+                      ColumnSpacing="15">
+                        <Label Text="&#x1F6CD;&#xFE0F;" 
+                           FontSize="28" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="0"/>
+                        <Label Text="Realizar pago" 
+                           FontSize="18" 
+                           FontAttributes="Bold" 
+                           VerticalOptions="Center" 
+                           TextColor="{StaticResource Primary}" 
+                           Grid.Column="1"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnHacerPagoClicked"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+
+                <BoxView HeightRequest="1" 
+                     Color="{StaticResource LightSea}" 
+                     HorizontalOptions="Fill"
+                     Margin="-20,0,-20,0"/>
+
+                <Frame Padding="0" 
+                   CornerRadius="10" 
+                   BorderColor="Transparent" 
+                   BackgroundColor="White" 
+                   HasShadow="False" 
+                   Margin="0">
+                     <Grid Padding="10" 
+                          ColumnDefinitions="50,*" 
+                          ColumnSpacing="15">
+                         <Label Text="&#x1F6CD;&#xFE0F;" 
+                               FontSize="28" 
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center" 
+                               Grid.Column="0"/>
+                         <Label Text="Programar pago" 
+                               FontSize="18" 
+                               FontAttributes="Bold" 
+                               VerticalOptions="Center" 
+                               TextColor="{StaticResource Primary}" 
+                               Grid.Column="1"/>
+                         <Grid.GestureRecognizers>
+                              <TapGestureRecognizer Tapped="OnProgramarPagoClicked"/>
+                         </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+
+                <BoxView HeightRequest="1" 
+                     Color="{StaticResource LightSea}" 
+                     HorizontalOptions="Fill"
+                     Margin="-20,0,-20,0"/>
+
+                    <Frame Padding="0" 
+                       CornerRadius="10" 
+                       BorderColor="Transparent" 
+                       BackgroundColor="White" 
+                       HasShadow="False" 
+                       Margin="0">
+                    <Grid Padding="10" 
+                        ColumnDefinitions="50,*" 
+                        ColumnSpacing="15">
+                        <Label Text="&#x1F6CD;&#xFE0F;" 
+                            FontSize="28" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            Grid.Column="0"/>
+                        <Label Text="Historial" 
+                            FontSize="18" 
+                            FontAttributes="Bold" 
+                            VerticalOptions="Center" 
+                            TextColor="{StaticResource Primary}" 
+                            Grid.Column="1"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnGestionComprasClicked"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+
+                <Frame Padding="0" 
+       CornerRadius="12" 
+       BorderColor="{StaticResource Ocean600}" 
+       HasShadow="True" 
+       Margin="0,10,0,0">
+                    <Grid Padding="15" 
+          ColumnDefinitions="50,*" 
+          ColumnSpacing="15" 
+          BackgroundColor="{StaticResource White}">
+                        <Label Text="&#x1F6AA;" 
+               FontSize="28" 
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" 
+               Grid.Column="0"/>
+                        <!--Sugerencia: poner una equis (X) allá en la esquina superior derecha para devolverse al menú, WIP-->
+                        <Label Text="Atrás" 
+               FontSize="18" 
+               FontAttributes="Bold" 
+               VerticalOptions="Center" 
+               TextColor="{StaticResource Secondary}" 
+               Grid.Column="1"/>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackClicked"/>
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+      </ScrollView>
 
 </ContentPage>

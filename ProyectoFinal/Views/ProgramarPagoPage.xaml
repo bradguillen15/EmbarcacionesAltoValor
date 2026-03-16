@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.ProgramarPagoPage"
+             Title="Programar Pago"
+             BackgroundColor="{StaticResource LightSea}">
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+
+        <!-- Título -->
+        <Label
+            Text="Programar Pago"
+            FontSize="28"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            TextColor="{StaticResource Primary}"/>
+
+        <!-- Subtitulo -->
+        <Label
+            Text="Seleccione la fecha para programar el pago"
+            FontSize="16"
+            HorizontalOptions="Center"
+            TextColor="{StaticResource Primary}"/>
+
+        <!-- Contenedor -->
+        <Frame Padding="20"
+               CornerRadius="15"
+               BorderColor="Transparent"
+               HasShadow="True"
+               BackgroundColor="{StaticResource White}">
+
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Fecha -->
+                <Label
+                    Text="Fecha del pago"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Primary}"/>
+
+                <DatePicker x:Name="BT_FechaPago"
+                            Format="dd/MM/yyyy"
+                            BackgroundColor="White"
+                            TextColor="{StaticResource Primary}" />
+
+                <BoxView HeightRequest="1"
+                         Color="{StaticResource LightSea}"
+                         HorizontalOptions="Fill"/>
+
+                <!-- Botón programar -->
+                <Button Text="Programar pago"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        x:Name="BT_Programar_Pago"/>
+
+                <!-- Botón salir -->
+                <Button Text="Atrás"
+                        BackgroundColor="White"
+                        TextColor="{StaticResource Primary}"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
+                        CornerRadius="10"
+                        HeightRequest="45"
+                        x:Name="BtnSalir"/>
+                
+            </VerticalStackLayout>
+
+        </Frame>
+
+    </VerticalStackLayout>
+
+</ContentPage>
