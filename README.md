@@ -1,4 +1,4 @@
-﻿# Pura Vida Yatchs
+# Pura Vida Yatchs
 
 **Sistema de gestión financiera para embarcaciones de alto valor**
 
@@ -6,23 +6,27 @@ Aplicación móvil desarrollada con .NET MAUI para el control de compras, abonos
 
 ## 🚢 Características
 
-- Gestión de Compras de embarcaciones
-- Registro de Abonos y pagos
-- Consultas de historial de transacciones
-- Reportes financieros
-- Sistema de notificaciones
+| Módulo | Estado |
+|--------|--------|
+| Autenticación (login con Supabase) | ✅ Implementado |
+| Gestión de Compras | 🔧 En desarrollo |
+| Registro de Abonos y pagos | 🔧 En desarrollo |
+| Consultas de historial | 🔧 En desarrollo |
+| Reportes financieros | 🔧 En desarrollo |
+| Sistema de notificaciones por email | 🔧 En desarrollo |
 
 ## 🛠️ Tecnologías
 
-- .NET 10
-- .NET MAUI
+- .NET 10 / .NET MAUI
 - C# 14.0
+- Supabase (PostgreSQL + REST API)
+- Plataformas: Android, iOS, macOS Catalyst, Windows
 
 ## 📋 Requisitos
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) (v17.13+)
-- Carga de trabajo: **.NET Multi-platform App UI development**
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) (v17.13+) con la carga de trabajo **.NET Multi-platform App UI development**
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- Credenciales de un proyecto en [Supabase](https://supabase.com)
 
 ## 🚀 Instalación
 
@@ -35,31 +39,45 @@ dotnet build
 
 ## ⚙️ Configuración de Supabase
 
-Antes de ejecutar la aplicación, necesitas configurar las credenciales de Supabase:
+Antes de ejecutar la aplicación, configura las credenciales de Supabase:
 
-1. Copia el archivo `ProyectoFinal/Config/AppConfig.cs.template` y renómbralo a `AppConfig.cs`
-2. Edita `AppConfig.cs` con tus credenciales de Supabase:
-   - `SupabaseUrl`: URL de tu proyecto en Supabase
-   - `SupabaseAnonKey`: Anon/Public key de tu proyecto
+1. Copia la plantilla y renómbrala:
+   ```bash
+   cp ProyectoFinal/Config/AppConfig.cs.template ProyectoFinal/Config/AppConfig.cs
+   ```
+2. Edita `AppConfig.cs` con tus credenciales:
+   - `SupabaseUrl`: URL de tu proyecto (Settings > API > Project URL)
+   - `SupabaseAnonKey`: Anon/Public key (Settings > API > anon/public)
 
-3. **IMPORTANTE**: El archivo `AppConfig.cs` está en `.gitignore` y NO debe ser comiteado al repositorio.
-
-### Obtener las credenciales de Supabase
-
-1. Ve a tu proyecto en [Supabase](https://supabase.com)
-2. Ve a Settings > API
-3. Copia el **Project URL** y el **anon/public key**
-
-### Seguridad
-
-- ❌ No comitees `AppConfig.cs` con credenciales reales
-- ✅ Usa el archivo `AppConfig.template.cs` como plantilla
-- 🔐 En producción, considera usar variables de entorno o Azure Key Vault
+> **IMPORTANTE:** `AppConfig.cs` está en `.gitignore` y **no debe ser comiteado** al repositorio.
 
 ## ▶️ Ejecutar
 
-1. Abre `ProyectoFinal.sln` en Visual Studio
+**Visual Studio (recomendado):**
+
+1. Abre `ProyectoFinal.slnx` en Visual Studio 2022
 2. Configura Supabase (ver sección anterior)
-3. Selecciona plataforma (Android/iOS/Windows)
+3. Selecciona la plataforma (Android / iOS / Windows)
 4. Presiona **F5**
 
+**CLI por plataforma:**
+
+```bash
+dotnet build -t:Run -f net10.0-android
+dotnet build -t:Run -f net10.0-ios
+dotnet build -t:Run -f net10.0-maccatalyst
+dotnet build -t:Run -f net10.0-windows10.0.19041.0
+```
+
+## 🗺️ Arquitectura de navegación
+
+```
+LoginPage  →  MenuPage  →  GestionComprasPage
+                       →  AbonosPage
+                       →  ConsultasPage
+                       →  ReportePage
+                       →  NotificacionesPage
+                       →  AyudaPage
+```
+
+La sesión del usuario (`UserId`, `UserName`) se persiste con la API `Preferences` de MAUI y se limpia al cerrar sesión.

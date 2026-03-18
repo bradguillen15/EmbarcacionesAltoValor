@@ -1,0 +1,56 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  claude-review:
+    name: Claude Review
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'pull_request') ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       contains(github.event.comment.body, '@claude'))
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Claude Code Review
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
+
+            Revisa este Pull Request para el proyecto EmbarcacionesAltoValor (.NET MAUI / C#).
+
+            Enfócate en:
+            1. Correctitud de la lógica de negocio (finanzas, embarcaciones)
+            2. Integración con Supabase (autenticación, llamadas HTTP, manejo de errores)
+            3. Navegación MAUI correcta (push/pop, limpieza de estado)
+            4. Seguridad: nunca se deben incluir credenciales en código
+            5. XAML: binding, estilos y accesibilidad
+            6. HTTP: usar exclusivamente System.Net.Http.Json. Si se usa Newtonsoft.Json u otro paquete NuGet externo para HTTP/JSON, marcarlo como problema.
+
+            Usa `gh pr comment` para feedback general.
+            Usa `mcp__github_inline_comment__create_inline_comment` (con `confirmed: true`) para señalar problemas en líneas específicas.
+            Si hay cambios de UI, pide al autor que adjunte capturas de pantalla.
+            Responde en español.
+
+          claude_args: --model claude-haiku-4-5-20251001 --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui-android
+
+      - name: Create AppConfig.cs from template
+        run: |
+          cp ProyectoFinal/Config/AppConfig.cs.template ProyectoFinal/Config/AppConfig.cs
+          sed -i 's|TU_SUPABASE_URL_AQUI|${{ secrets.SUPABASE_URL }}|g' ProyectoFinal/Config/AppConfig.cs
+          sed -i 's|TU_SUPABASE_ANON_KEY_AQUI|${{ secrets.SUPABASE_ANON_KEY }}|g' ProyectoFinal/Config/AppConfig.cs
+
+      - name: Restore dependencies
+        run: dotnet restore ProyectoFinal/ProyectoFinal.csproj -p:TargetFramework=net10.0-android
+
+      - name: Build
+        run: dotnet build ProyectoFinal/ProyectoFinal.csproj -f net10.0-android -c Release --no-restore
