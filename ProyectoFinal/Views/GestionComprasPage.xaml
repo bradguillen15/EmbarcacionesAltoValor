@@ -11,7 +11,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center">
 
-            
+            <!-- comentario-->
             <Label
                 Text="Gestión de Compras"
                 FontSize="28"
