@@ -5,70 +5,89 @@
              Title="Programar Pago"
              BackgroundColor="{StaticResource LightSea}">
 
-    <VerticalStackLayout Padding="20" Spacing="20">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
 
-        <!-- Título -->
-        <Label
-            Text="Programar Pago"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"
-            TextColor="{StaticResource Primary}"/>
+            <!-- Título -->
+            <Label
+                Text="Programar Pago"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{StaticResource Primary}"/>
 
-        <!-- Subtitulo -->
-        <Label
-            Text="Seleccione la fecha para programar el pago"
-            FontSize="16"
-            HorizontalOptions="Center"
-            TextColor="{StaticResource Primary}"/>
+            <!-- Contenedor -->
+            <Frame Padding="20,20,20,20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   HasShadow="True"
+                   BackgroundColor="{StaticResource White}">
 
-        <!-- Contenedor -->
-        <Frame Padding="20"
-               CornerRadius="15"
-               BorderColor="Transparent"
-               HasShadow="True"
-               BackgroundColor="{StaticResource White}">
+                <VerticalStackLayout Spacing="30">
 
-            <VerticalStackLayout Spacing="15">
+                    <!-- Fecha -->
+                    <Label
+                        Text="Seleccione la fecha del pago"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="{StaticResource Primary}"/>
 
-                <!-- Fecha -->
-                <Label
-                    Text="Fecha del pago"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource Primary}"/>
+                    <DatePicker x:Name="BT_FechaPago"
+                                Format="dd/MM/yyyy"
+                                BackgroundColor="White"
+                                TextColor="{StaticResource Primary}" />
+                    <!-- Linea azul entre elementos -->
+                    <BoxView HeightRequest="1"
+                             Color="{StaticResource LightSea}"
+                             HorizontalOptions="Fill"/>
 
-                <DatePicker x:Name="BT_FechaPago"
-                            Format="dd/MM/yyyy"
-                            BackgroundColor="White"
-                            TextColor="{StaticResource Primary}" />
+                    
 
-                <BoxView HeightRequest="1"
+                    <!-- Picker donde se selecciona el vehiculo -->
+                    <Label FontAttributes="Bold" />
+                    <Picker x:Name="PickerVehiculo"
+                        Title="Seleccione el vehiculo que desea pagar"
+                        TitleColor="{StaticResource Gray600}"
+                        BackgroundColor="{StaticResource Primary}"
+                        ItemDisplayBinding="{Binding Display}" />
+
+                    <!-- Linea azul entre elementos -->
+                    <BoxView HeightRequest="1"
                          Color="{StaticResource LightSea}"
                          HorizontalOptions="Fill"/>
 
-                <!-- Botón programar -->
-                <Button Text="Programar pago"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White"
-                        CornerRadius="10"
-                        HeightRequest="45"
-                        x:Name="BT_Programar_Pago"/>
-
-                <!-- Botón salir -->
-                <Button Text="Atrás"
-                        BackgroundColor="White"
+                    <Label FontAttributes="Bold" />
+                    <Entry
+                        x:Name="MontoEntry"
                         TextColor="{StaticResource Primary}"
-                        BorderColor="{StaticResource Primary}"
-                        BorderWidth="2"
-                        CornerRadius="10"
-                        HeightRequest="45"
-                        x:Name="BtnSalir"/>
-                
-            </VerticalStackLayout>
+                        Placeholder="Digite el monto que desea pagar" />
 
-        </Frame>
+                    <!-- Botón programar -->
+                    <Button Text="Programar pago"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            x:Name="BT_Programar_Pago"/>
 
-    </VerticalStackLayout>
+                    <!-- Botón salir -->
+                    <Button Text="Atrás"
+                            BackgroundColor="White"
+                            TextColor="{StaticResource Primary}"
+                            BorderColor="{StaticResource Primary}"
+                            BorderWidth="2"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            x:Name="BtnSalir"/>
+
+                </VerticalStackLayout>
+
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+
 
 </ContentPage>
