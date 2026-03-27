@@ -5,7 +5,7 @@ public class Compra
     public int Id { get; set; }
     public int ProductoId { get; set; }
 
-    public Producto productos { get; set; } = new();
+    public Producto producto { get; set; } = new();
 
-    public string Display => $"{productos.TipoBien} - {productos.Marca}";
+    public string Display => $"{producto.TipoBien} - {producto.Marca}";
 }

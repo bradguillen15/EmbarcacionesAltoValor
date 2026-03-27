@@ -25,4 +25,29 @@ public class AuthService
         var results = await response.Content.ReadFromJsonAsync<List<LoginResponse>>();
         return results?.FirstOrDefault();
     }
+
+    //Task para insertar abono
+    public async Task<string> InsertAbono(Abono abono)
+    {
+        var response = await _http.PostAsJsonAsync("/rest/v1/abonos", abono);
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return content; //  devuelve error en caso de problemas
+        }
+
+        return "OK";
+    }
+    //Task para obtener las compras del cliente seleccionado
+    public async Task<List<Compra>> GetComprasByCliente(int clienteId)
+    {
+        var response = await _http.GetAsync(
+        $"/rest/v1/compras?ClienteId=eq.{clienteId}&select=Id,ProductoId,productos(Nombre,TipoBien,Marca)"
+    );
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Compra>>() ?? new List<Compra>();
+    }
 }

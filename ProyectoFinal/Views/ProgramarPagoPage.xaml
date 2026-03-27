@@ -62,6 +62,7 @@
                     <Label FontAttributes="Bold" />
                     <Entry
                         x:Name="MontoEntry"
+                        Keyboard="Numeric"
                         TextColor="{StaticResource Primary}"
                         Placeholder="Digite el monto que desea pagar" />
 

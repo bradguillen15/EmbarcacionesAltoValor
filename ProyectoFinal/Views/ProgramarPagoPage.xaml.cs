@@ -18,7 +18,7 @@ public partial class ProgramarPagoPage : ContentPage
 
         try
         {
-            var service = new CompraService();
+            var service = new AuthService();
             var compras = await service.GetComprasByCliente(Session.ClienteId);
 
             PickerVehiculo.ItemsSource = compras;
@@ -66,7 +66,7 @@ public partial class ProgramarPagoPage : ContentPage
             FechaAbono = fechaSeleccionada 
         };
 
-        var service = new CompraService();
+        var service = new AuthService();
 
         var result = await service.InsertAbono(abono);
 

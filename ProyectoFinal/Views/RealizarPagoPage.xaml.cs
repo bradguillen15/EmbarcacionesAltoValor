@@ -16,12 +16,16 @@ public partial class RealizarPagoPage : ContentPage
     {
         base.OnAppearing();
 
-        var service = new CompraService();
-        var compras = await service.GetComprasByCliente(Session.ClienteId);
-
-        PickerVehiculo.ItemsSource = compras;
-
-        //await DisplayAlert("DEBUG", $"ClienteId: {Session.ClienteId}", "OK");
+        try
+        {
+            var service = new AuthService();
+            var compras = await service.GetComprasByCliente(Session.ClienteId);
+            PickerVehiculo.ItemsSource = compras;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
     private async void OnHacerPagoClicked(object sender, EventArgs e)
     {
@@ -56,7 +60,7 @@ public partial class RealizarPagoPage : ContentPage
             FechaAbono = DateTime.UtcNow.Date
         };
 
-        var service = new CompraService();
+        var service = new AuthService();
         var result = await service.InsertAbono(abono);
 
         if (result == "OK")
