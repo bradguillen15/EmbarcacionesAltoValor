@@ -18,7 +18,7 @@ public partial class GestionComprasPage : ContentPage
     {
         await Navigation.PushAsync(new MenuPage());
     }
-    private async void OnGestionComprasClicked(object sender, EventArgs e)
+    private async void OnHistorialClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new HistorialPage());
     }

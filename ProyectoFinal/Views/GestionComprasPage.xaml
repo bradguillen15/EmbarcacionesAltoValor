@@ -117,7 +117,7 @@
                             TextColor="{StaticResource Primary}" 
                             Grid.Column="1"/>
                         <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnGestionComprasClicked"/>
+                            <TapGestureRecognizer Tapped="OnHistorialClicked"/>
                         </Grid.GestureRecognizers>
                     </Grid>
                 </Frame>
