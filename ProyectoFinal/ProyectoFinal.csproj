@@ -62,10 +62,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\HistorialComprasPage.xaml.cs">
+	    <DependentUpon>HistorialComprasPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\AyudaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\HistorialPage.xaml">
+	  <MauiXaml Update="Views\HistorialComprasPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LoginPage.xaml">

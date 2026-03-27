@@ -38,7 +38,7 @@ public class AuthService
             return content; //  devuelve error en caso de problemas
         }
 
-        return "OK";
+        return content;
     }
     //Task para obtener las compras del cliente seleccionado
     public async Task<List<Compra>> GetComprasByCliente(int clienteId)
