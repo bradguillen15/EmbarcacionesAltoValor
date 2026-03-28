@@ -1,4 +1,5 @@
 using ProyectoFinal.Services;
+using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Views;
 
@@ -30,6 +31,7 @@ public partial class LoginPage : ContentPage
 
             if (user != null)
             {
+                Session.ClienteId = (int)user.Id; // guarda el cliente ID para utilizarlo en compras usando el metodo session de LoginResponce.cs
                 Preferences.Set("UserId", user.Id.ToString());
                 Preferences.Set("UserName", user.Nombre);
 

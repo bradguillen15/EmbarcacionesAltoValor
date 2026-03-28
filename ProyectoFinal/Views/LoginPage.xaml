@@ -53,12 +53,14 @@
                     <Entry
                         x:Name="EmailEntry"
                         Placeholder="correo@ejemplo.com"
+                        TextColor="{StaticResource Primary}"
                         Keyboard="Email"
                         ClearButtonVisibility="WhileEditing" />
 
                     <Label Text="Contrasena" FontAttributes="Bold" />
                     <Entry
                         x:Name="PasswordEntry"
+                        TextColor="{StaticResource Primary}"
                         Placeholder="Tu contrasena"
                         IsPassword="True" />
 

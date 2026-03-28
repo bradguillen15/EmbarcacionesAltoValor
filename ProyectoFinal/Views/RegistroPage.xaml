@@ -37,24 +37,28 @@
                     <Entry
                         x:Name="NombreEntry"
                         Placeholder="Tu nombre"
+                        TextColor="{StaticResource Primary}"
                         ClearButtonVisibility="WhileEditing" />
 
                     <Label Text="Email" FontAttributes="Bold" />
                     <Entry
                         x:Name="EmailEntry"
                         Placeholder="correo@ejemplo.com"
+                        TextColor="{StaticResource Primary}"
                         Keyboard="Email"
                         ClearButtonVisibility="WhileEditing" />
 
                     <Label Text="Contrasena" FontAttributes="Bold" />
                     <Entry
                         x:Name="PasswordEntry"
+                        TextColor="{StaticResource Primary}"
                         Placeholder="Tu contrasena"
                         IsPassword="True" />
 
                     <Label Text="Confirmar contrasena" FontAttributes="Bold" />
                     <Entry
                         x:Name="ConfirmPasswordEntry"
+                        TextColor="{StaticResource Primary}"
                         Placeholder="Confirma tu contrasena"
                         IsPassword="True" />
 

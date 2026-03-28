@@ -237,11 +237,11 @@
                            VerticalOptions="Center" 
                            HorizontalOptions="Center" 
                            Grid.Column="0"/>
-                    <Label Text="Cerrar Sesi&#243;n" 
+                    <Label Text="Cerrar Sesion" 
                            FontSize="18" 
                            FontAttributes="Bold" 
                            VerticalOptions="Center" 
-                           TextColor="{StaticResource Ocean600}" 
+                           TextColor="{StaticResource Secondary}" 
                            Grid.Column="1"/>
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnLogoutClicked"/>
