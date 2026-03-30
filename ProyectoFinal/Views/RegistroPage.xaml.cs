@@ -1,3 +1,5 @@
+using ProyectoFinal.Services;
+
 namespace ProyectoFinal.Views;
 
 public partial class RegistroPage : ContentPage
@@ -28,10 +30,18 @@ public partial class RegistroPage : ContentPage
             return;
         }
 
-        await DisplayAlert("Registro Exitoso", 
-            $"Nombre: {nombre}\nEmail: {email}\n\nCuenta creada correctamente", "OK");
+        var auth = new AuthService();
 
-        await Navigation.PopToRootAsync();
+        var ok = await auth.Register(nombre, email, password);
+
+        if (ok)
+        {
+            await DisplayAlert("OK", "Usuario registrado", "OK");
+            await Navigation.PushAsync(new MenuPage());
+        }
+        else
+            await DisplayAlert("Error", "No se registró", "OK");
+
     }
 
     private async void OnLoginTapped(object sender, EventArgs e)

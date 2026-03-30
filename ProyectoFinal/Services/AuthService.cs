@@ -26,6 +26,27 @@ public class AuthService
         return results?.FirstOrDefault();
     }
 
+     public async Task<bool> Register(string nombre, string email, string password)
+    {
+        var body = new
+        {
+            p_nombre = nombre,
+            p_email = email,
+            p_password = password
+        };
+
+        var response = await _http.PostAsJsonAsync("/rest/v1/rpc/registrar", body);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            await Application.Current.MainPage.DisplayAlert("ERROR", error, "OK");
+            return false;
+        }
+
+        return true;
+    }
+
     //Task para insertar abono
     public async Task<string> InsertAbono(Abono abono)
     {
