@@ -339,3 +339,4 @@ FodyWeavers.xsd
 
 # Sensitive configuration files
 **/Config/AppConfig.cs
+ProyectoFinal/Config/AppConfig.cs.template
