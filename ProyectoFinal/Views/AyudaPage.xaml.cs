@@ -34,4 +34,4 @@ public partial class AyudaPage : ContentPage
         {
             await DisplayAlert("Error", "No se pudo abrir el correo.", "OK");
         }
-    }
+    }}
