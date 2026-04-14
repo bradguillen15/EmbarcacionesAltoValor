@@ -36,6 +36,9 @@ public partial class RegistrarCompraPage : ContentPage
         ProductoDetalleLabel.Text = $"{_producto.TipoBien} {_producto.Marca} • {_producto.Zona}";
         PrecioBaseLabel.Text = $"${_precioTotal:N2}";
 
+        // Seleccionar 12 meses por defecto
+        PlazoPicker.SelectedIndex = 0;
+
         ActualizarCalculos();
     }
 

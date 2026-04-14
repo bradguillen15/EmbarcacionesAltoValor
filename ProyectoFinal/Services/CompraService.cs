@@ -1,27 +1,22 @@
 using System.Net.Http.Json;
-using ProyectoFinal.Config;
 using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Services;
 
 public class CompraService
 {
-    private readonly HttpClient _http;
-
-    public CompraService()
-    {
-        _http = new HttpClient();
-        _http.BaseAddress = new Uri(AppConfig.SupabaseUrl);
-        _http.DefaultRequestHeaders.Add("apikey", AppConfig.SupabaseAnonKey);
-        _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {AppConfig.SupabaseAnonKey}");
-        _http.DefaultRequestHeaders.Add("Prefer", "return=representation");
-    }
+    private readonly HttpClient _http = SupabaseHttpClient.Instance;
 
     public async Task<bool> RegistrarCompraAsync(Compra compra)
     {
         try
         {
-            var response = await _http.PostAsJsonAsync("/rest/v1/compras", compra);
+            // Agregar el header "Prefer" solo para esta petición
+            using var request = new HttpRequestMessage(HttpMethod.Post, "/rest/v1/compras");
+            request.Headers.Add("Prefer", "return=representation");
+            request.Content = JsonContent.Create(compra);
+
+            var response = await _http.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {

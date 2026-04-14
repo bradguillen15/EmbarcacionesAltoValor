@@ -1,20 +1,11 @@
 using System.Net.Http.Json;
-using ProyectoFinal.Config;
 using ProyectoFinal.Models;
 
 namespace ProyectoFinal.Services;
 
 public class ProductoService
 {
-    private readonly HttpClient _http;
-
-    public ProductoService()
-    {
-        _http = new HttpClient();
-        _http.BaseAddress = new Uri(AppConfig.SupabaseUrl);
-        _http.DefaultRequestHeaders.Add("apikey", AppConfig.SupabaseAnonKey);
-        _http.DefaultRequestHeaders.Add("Authorization", $"Bearer {AppConfig.SupabaseAnonKey}");
-    }
+    private readonly HttpClient _http = SupabaseHttpClient.Instance;
 
     public async Task<List<Producto>> GetProductosAsync()
     {

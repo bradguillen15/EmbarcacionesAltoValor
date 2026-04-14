@@ -4,7 +4,11 @@ namespace ProyectoFinal.Models;
 
 public class Compra
 {
+    /// <summary>
+    /// ID de la compra. Es auto-generado por Supabase, no enviar en POST.
+    /// </summary>
     [JsonPropertyName("Id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public long Id { get; set; }
 
     [JsonPropertyName("ClienteId")]
@@ -31,12 +35,17 @@ public class Compra
     [JsonPropertyName("FechaRegistro")]
     public DateTime FechaRegistro { get; set; }
 
-    [JsonIgnore]
-    public Producto? productos { get; set; }
+    /// <summary>
+    /// Propiedad de navegación para el producto asociado a esta compra.
+    /// Se llena cuando se hace un select anidado en Supabase (productos).
+    /// </summary>
+    [JsonPropertyName("productos")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Producto? Producto { get; set; }
 
     [JsonIgnore]
-    public string Display => productos != null 
-        ? $"{productos.TipoBien} - {productos.Marca}" 
+    public string Display => Producto != null 
+        ? $"{Producto.TipoBien} - {Producto.Marca}" 
         : $"Producto ID: {ProductoId}";
 
     [JsonIgnore]

@@ -18,8 +18,8 @@ public partial class RealizarPagoPage : ContentPage
 
         try
         {
-            var service = new AuthService();
-            var compras = await service.GetComprasByCliente(Session.ClienteId);
+            var service = new CompraService();
+            var compras = await service.GetComprasByClienteAsync(Session.ClienteId);
             PickerVehiculo.ItemsSource = compras;
         }
         catch (Exception ex)
@@ -60,16 +60,16 @@ public partial class RealizarPagoPage : ContentPage
             FechaAbono = DateTime.UtcNow.Date
         };
 
-        var service = new AuthService();
-        var result = await service.InsertAbono(abono);
+        var service = new AbonoService();
+        var result = await service.InsertAbonoAsync(abono);
 
-        if (result == "OK")
+        if (result)
         {
             await DisplayAlert("Confirmación", "Pago realizado correctamente", "OK");
         }
         else
         {
-            await DisplayAlert("Error", result, "OK"); // Mostrar error
+            await DisplayAlert("Error", "No se pudo realizar el pago", "OK");
         }
     }
 

@@ -18,8 +18,8 @@ public partial class ProgramarPagoPage : ContentPage
 
         try
         {
-            var service = new AuthService();
-            var compras = await service.GetComprasByCliente(Session.ClienteId);
+            var service = new CompraService();
+            var compras = await service.GetComprasByClienteAsync(Session.ClienteId);
 
             PickerVehiculo.ItemsSource = compras;
         }
@@ -66,11 +66,11 @@ public partial class ProgramarPagoPage : ContentPage
             FechaAbono = fechaSeleccionada 
         };
 
-        var service = new AuthService();
+        var service = new AbonoService();
 
-        var result = await service.InsertAbono(abono);
+        var result = await service.InsertAbonoAsync(abono);
 
-        if (result == "OK")
+        if (result)
         {
             await DisplayAlert("Confirmación",
                 $"Pago programado para el {fechaSeleccionada:dd/MM/yyyy} correctamente",
@@ -78,7 +78,7 @@ public partial class ProgramarPagoPage : ContentPage
         }
         else
         {
-            await DisplayAlert("Error", result, "OK");
+            await DisplayAlert("Error", "No se pudo programar el pago", "OK");
         }
     }
     private async void BtnSalir_Clicked(object? sender, EventArgs e)

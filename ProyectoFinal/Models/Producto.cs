@@ -4,7 +4,11 @@ namespace ProyectoFinal.Models;
 
 public class Producto
 {
+    /// <summary>
+    /// ID del producto. Es auto-generado por Supabase.
+    /// </summary>
     [JsonPropertyName("Id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public long Id { get; set; }
 
     [JsonPropertyName("ProveedorId")]

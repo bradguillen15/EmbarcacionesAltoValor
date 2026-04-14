@@ -8,6 +8,13 @@ namespace ProyectoFinal.Models
     //Supabase REST convierte todo a minusculas, el "JsonPropertyName" le dice literalemente lo que el codigo tiene que mandar
     public class Abono
     {
+        /// <summary>
+        /// ID del abono. Es auto-generado por Supabase, no enviar en POST.
+        /// </summary>
+        [JsonPropertyName("Id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public long Id { get; set; }
+
         [JsonPropertyName("CompraId")]
         public long CompraId { get; set; }
 
