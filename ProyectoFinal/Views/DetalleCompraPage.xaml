@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.DetalleCompraPage"
+             Title="Detalle de Compra"
+             BackgroundColor="{StaticResource LightSea}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="{StaticResource Primary}"
+                   HasShadow="True">
+                <Label Text="📋 Detalle de Compra"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Información del Producto -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🚤 Embarcación"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Label x:Name="ProductoNombreLabel"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"/>
+
+                    <Label x:Name="ProductoDetalleLabel"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray600}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Información Financiera -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="💰 Información Financiera"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <!-- Precio Total - Destacado -->
+                    <Frame Padding="15"
+                           CornerRadius="12"
+                           BorderColor="Transparent"
+                           BackgroundColor="#F0F9FF"
+                           HasShadow="False">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                            <Label Grid.Column="0"
+                                   Text="Precio Total"
+                                   FontSize="14"
+                                   TextColor="{StaticResource Gray600}"
+                                   VerticalOptions="Center"/>
+                            <Label Grid.Column="1"
+                                   x:Name="PrecioTotalLabel"
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="End"/>
+                        </Grid>
+                    </Frame>
+
+                    <!-- Grid de 2 columnas para Prima y Financiado -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <!-- Prima Inicial -->
+                        <Frame Grid.Column="0"
+                               Padding="12"
+                               CornerRadius="12"
+                               BorderColor="Transparent"
+                               BackgroundColor="#F0FDF4"
+                               HasShadow="False">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💵 Prima"
+                                       FontSize="11"
+                                       TextColor="{StaticResource Gray600}"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label x:Name="PrimaInicialLabel"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#059669"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Monto Financiado -->
+                        <Frame Grid.Column="1"
+                               Padding="12"
+                               CornerRadius="12"
+                               BorderColor="Transparent"
+                               BackgroundColor="#FEF3C7"
+                               HasShadow="False">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="📈 Financiado"
+                                       FontSize="11"
+                                       TextColor="{StaticResource Gray600}"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label x:Name="MontoFinanciadoLabel"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#D97706"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+
+                    <!-- Separador -->
+                    <BoxView HeightRequest="1"
+                             Color="{StaticResource Gray200}"/>
+
+                    <!-- Detalles adicionales -->
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" 
+                          ColumnSpacing="15" RowSpacing="10">
+
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="⏱️ Plazo"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray600}"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                               x:Name="PlazoLabel"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"/>
+
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="📊 Tasa Anual"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray600}"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               x:Name="TasaLabel"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"/>
+
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="📅 Fecha Compra"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray600}"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               x:Name="FechaLabel"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"/>
+                    </Grid>
+
+                    <!-- Estado Badge -->
+                    <Frame Padding="10,8"
+                           CornerRadius="8"
+                           BorderColor="Transparent"
+                           BackgroundColor="#ECFDF5"
+                           HasShadow="False"
+                           HorizontalOptions="Start">
+                        <Label x:Name="EstadoLabel"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="#059669"/>
+                    </Frame>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Progreso de Pago -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="📊 Estado de Pago"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <!-- Barra de Progreso -->
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0"
+                                   Text="Progreso"
+                                   FontSize="14"
+                                   TextColor="{StaticResource Gray600}"/>
+                            <Label Grid.Column="1"
+                                   x:Name="PorcentajePagadoLabel"
+                                   Text="0% Pagado"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Secondary}"/>
+                        </Grid>
+                        <ProgressBar x:Name="ProgressBar"
+                                     Progress="0"
+                                     ProgressColor="{StaticResource Secondary}"
+                                     HeightRequest="12"
+                                     CornerRadius="6"/>
+                    </VerticalStackLayout>
+
+                    <!-- Grid de Saldo -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <!-- Total Abonado -->
+                        <Frame Grid.Column="0"
+                               Padding="12"
+                               CornerRadius="12"
+                               BorderColor="Transparent"
+                               BackgroundColor="#ECFDF5"
+                               HasShadow="False">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="✅ Abonado"
+                                       FontSize="11"
+                                       TextColor="{StaticResource Gray600}"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label x:Name="TotalAbonadoLabel"
+                                       Text="$0.00"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#059669"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Saldo Pendiente -->
+                        <Frame Grid.Column="1"
+                               Padding="12"
+                               CornerRadius="12"
+                               BorderColor="Transparent"
+                               BackgroundColor="#FEF2F2"
+                               HasShadow="False">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="⏳ Pendiente"
+                                       FontSize="11"
+                                       TextColor="{StaticResource Gray600}"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label x:Name="SaldoPendienteLabel"
+                                       Text="Cargando..."
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#DC2626"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Opciones de Pago -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="💳 Opciones de Pago"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Button x:Name="PagoMensualButton"
+                            Text="💰 Realizar Pago Mensual"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            Clicked="OnRealizarPagoClicked"/>
+
+                    <Button x:Name="PagoExtraordinarioButton"
+                            Text="💵 Realizar Pago Extraordinario"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            Clicked="OnPagoExtraordinarioClicked"/>
+
+                    <Button x:Name="ProgramarPagoButton"
+                            Text="📅 Programar Pago Futuro"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource Tertiary}"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            Clicked="OnProgramarPagoClicked"/>
+
+                    <BoxView HeightRequest="1"
+                             Color="{StaticResource Gray200}"
+                             Margin="0,5"/>
+
+                    <Button Text="📜 Ver Historial de Abonos"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BackgroundColor="#6B7280"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="50"
+                            Clicked="OnVerHistorialClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

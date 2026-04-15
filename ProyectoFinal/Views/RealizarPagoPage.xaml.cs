@@ -19,7 +19,7 @@ public partial class RealizarPagoPage : ContentPage
         try
         {
             var service = new CompraService();
-            var compras = await service.GetComprasByClienteAsync(Session.ClienteId);
+            var compras = await service.GetComprasConSaldoByClienteAsync(Session.ClienteId);
             PickerVehiculo.ItemsSource = compras;
         }
         catch (Exception ex)

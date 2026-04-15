@@ -11,7 +11,6 @@ public class CompraService
     {
         try
         {
-            // Agregar el header "Prefer" solo para esta petición
             using var request = new HttpRequestMessage(HttpMethod.Post, "/rest/v1/compras");
             request.Headers.Add("Prefer", "return=representation");
             request.Content = JsonContent.Create(compra);
@@ -34,12 +33,31 @@ public class CompraService
         }
     }
 
-    public async Task<List<Compra>> GetComprasByClienteAsync(long clienteId)
+    public async Task<Compra?> GetCompraConSaldoAsync(long compraId)
     {
         try
         {
             var response = await _http.GetAsync(
-                $"/rest/v1/compras?ClienteId=eq.{clienteId}&select=Id,ClienteId,ProductoId,PrecioTotal,PrimaInicial,PlazoMeses,TasaInteres,Estado,FechaRegistro,productos(Id,Nombre,TipoBien,Marca,PrecioBase)"
+                $"/rest/v1/vw_compra_con_saldo?Id=eq.{compraId}&select=Id,ClienteId,ProductoId,PrecioTotal,PrimaInicial,PlazoMeses,TasaInteres,Estado,FechaRegistro,SaldoPendiente,productos(Id,Nombre,TipoBien,Marca,PrecioBase)"
+            );
+            response.EnsureSuccessStatusCode();
+
+            var compras = await response.Content.ReadFromJsonAsync<List<Compra>>();
+            return compras?.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo cargar el saldo: {ex.Message}", "OK");
+            return null;
+        }
+    }
+
+    public async Task<List<Compra>> GetComprasConSaldoByClienteAsync(long clienteId)
+    {
+        try
+        {
+            var response = await _http.GetAsync(
+                $"/rest/v1/vw_compra_con_saldo?ClienteId=eq.{clienteId}&select=Id,ClienteId,ProductoId,PrecioTotal,PrimaInicial,PlazoMeses,TasaInteres,Estado,FechaRegistro,SaldoPendiente,productos(Id,Nombre,TipoBien,Marca,PrecioBase)&order=Estado.asc,FechaRegistro.desc"
             );
             response.EnsureSuccessStatusCode();
 

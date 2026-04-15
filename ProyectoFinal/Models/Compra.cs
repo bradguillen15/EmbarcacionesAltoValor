@@ -4,9 +4,6 @@ namespace ProyectoFinal.Models;
 
 public class Compra
 {
-    /// <summary>
-    /// ID de la compra. Es auto-generado por Supabase, no enviar en POST.
-    /// </summary>
     [JsonPropertyName("Id")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public long Id { get; set; }
@@ -35,10 +32,10 @@ public class Compra
     [JsonPropertyName("FechaRegistro")]
     public DateTime FechaRegistro { get; set; }
 
-    /// <summary>
-    /// Propiedad de navegación para el producto asociado a esta compra.
-    /// Se llena cuando se hace un select anidado en Supabase (productos).
-    /// </summary>
+    [JsonPropertyName("SaldoPendiente")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? SaldoPendiente { get; set; }
+
     [JsonPropertyName("productos")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Producto? Producto { get; set; }
@@ -50,4 +47,12 @@ public class Compra
 
     [JsonIgnore]
     public decimal MontoFinanciado => PrecioTotal - PrimaInicial;
+
+    [JsonIgnore]
+    public decimal TotalAbonado => MontoFinanciado - (SaldoPendiente ?? MontoFinanciado);
+
+    [JsonIgnore]
+    public double PorcentajePagado => MontoFinanciado > 0 
+        ? (double)((TotalAbonado / MontoFinanciado) * 100) 
+        : 0;
 }

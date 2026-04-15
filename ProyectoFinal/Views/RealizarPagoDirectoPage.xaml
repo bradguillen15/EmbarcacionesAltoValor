@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.RealizarPagoDirectoPage"
+             Title="Realizar Pago"
+             BackgroundColor="{StaticResource LightSea}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="{StaticResource Primary}"
+                   HasShadow="True">
+                <Label x:Name="HeaderLabel"
+                       Text="💳 Realizar Pago Mensual"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Info de la compra -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Compra Seleccionada"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Label x:Name="ProductoLabel"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray900}"/>
+
+                    <!-- Saldo Pendiente -->
+                    <Frame Padding="12"
+                           CornerRadius="10"
+                           BorderColor="Transparent"
+                           BackgroundColor="#FEF2F2"
+                           HasShadow="False"
+                           Margin="0,10,0,0">
+                        <Label x:Name="SaldoPendienteLabel"
+                               Text="Cargando saldo..."
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="#DC2626"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="False"/>
+                    </Frame>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Formulario de pago -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Información del Pago"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"/>
+
+                    <Label Text="Monto a Pagar"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray600}"/>
+                    <Entry x:Name="MontoEntry"
+                           Placeholder="Ingrese el monto"
+                           Keyboard="Numeric"
+                           FontSize="16"
+                           BackgroundColor="{StaticResource LightSea}"/>
+
+                    <Label Text="Método de Pago"
+                           FontSize="14"
+                           TextColor="{StaticResource Gray600}"/>
+                    <Picker x:Name="MetodoPagoPicker"
+                            Title="Seleccione método de pago"
+                            FontSize="16"
+                            BackgroundColor="{StaticResource LightSea}">
+                        <Picker.Items>
+                            <x:String>Transferencia Bancaria</x:String>
+                            <x:String>Tarjeta de Crédito</x:String>
+                            <x:String>Tarjeta de Débito</x:String>
+                            <x:String>Efectivo</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botones -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="Cancelar"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Gray400}"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="50"
+                        Clicked="OnCancelarClicked"/>
+
+                <Button Grid.Column="1"
+                        Text="Confirmar Pago"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="50"
+                        Clicked="OnConfirmarClicked"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
