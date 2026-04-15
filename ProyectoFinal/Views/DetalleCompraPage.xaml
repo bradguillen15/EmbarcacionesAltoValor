@@ -207,8 +207,7 @@
                         <ProgressBar x:Name="ProgressBar"
                                      Progress="0"
                                      ProgressColor="{StaticResource Secondary}"
-                                     HeightRequest="12"
-                                     CornerRadius="6"/>
+                                     HeightRequest="12"/>
                     </VerticalStackLayout>
 
                     <!-- Grid de Saldo -->
