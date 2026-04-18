@@ -38,7 +38,7 @@
                    HasShadow="True" 
                    BackgroundColor="{StaticResource White}">
                 <VerticalStackLayout Spacing="2">
-                    
+
                     <Frame Padding="0" 
                            CornerRadius="10" 
                            BorderColor="Transparent" 
@@ -48,19 +48,19 @@
                         <Grid Padding="10" 
                               ColumnDefinitions="50,*" 
                               ColumnSpacing="15">
-                            <Label Text="&#x1F6CD;&#xFE0F;" 
+                            <Label Text="&#x1F6A4;" 
                                    FontSize="28" 
                                    VerticalOptions="Center" 
                                    HorizontalOptions="Center" 
                                    Grid.Column="0"/>
-                            <Label Text="Gesti&#243;n de Compras" 
+                            <Label Text="Cat&#225;logo de Productos" 
                                    FontSize="18" 
                                    FontAttributes="Bold" 
                                    VerticalOptions="Center" 
                                    TextColor="{StaticResource Primary}" 
                                    Grid.Column="1"/>
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnGestionComprasClicked"/>
+                                <TapGestureRecognizer Tapped="OnCatalogoClicked"/>
                             </Grid.GestureRecognizers>
                         </Grid>
                     </Frame>
@@ -79,19 +79,19 @@
                         <Grid Padding="10" 
                               ColumnDefinitions="50,*" 
                               ColumnSpacing="15">
-                            <Label Text="&#x1F4B5;" 
+                            <Label Text="&#x1F6CD;&#xFE0F;" 
                                    FontSize="28" 
                                    VerticalOptions="Center" 
                                    HorizontalOptions="Center" 
                                    Grid.Column="0"/>
-                            <Label Text="Registro de Abonos" 
+                            <Label Text="Mis Compras" 
                                    FontSize="18" 
                                    FontAttributes="Bold" 
                                    VerticalOptions="Center" 
                                    TextColor="{StaticResource Primary}" 
                                    Grid.Column="1"/>
                             <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnAbonosClicked"/>
+                                <TapGestureRecognizer Tapped="OnGestionComprasClicked"/>
                             </Grid.GestureRecognizers>
                         </Grid>
                     </Frame>

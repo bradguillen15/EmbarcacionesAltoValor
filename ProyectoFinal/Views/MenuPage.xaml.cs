@@ -7,6 +7,11 @@ public partial class MenuPage : ContentPage
         InitializeComponent();
     }
 
+    private async void OnCatalogoClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CatalogoProductosPage());
+    }
+
     private async void OnGestionComprasClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new GestionComprasPage());

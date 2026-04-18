@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProyectoFinal.Views.CatalogoProductosPage"
+             Title="Catálogo de Productos"
+             BackgroundColor="{StaticResource LightSea}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Frame Grid.Row="0"
+               Padding="20"
+               CornerRadius="0"
+               BorderColor="Transparent"
+               BackgroundColor="{StaticResource Primary}"
+               HasShadow="True">
+            <Label Text="🛥️ Embarcaciones Disponibles"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+        </Frame>
+
+        <ActivityIndicator Grid.Row="1"
+                          x:Name="LoadingIndicator"
+                          IsRunning="False"
+                          IsVisible="False"
+                          Color="{StaticResource Primary}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center"/>
+
+        <ScrollView Grid.Row="1" x:Name="ProductosScrollView">
+            <CollectionView x:Name="ProductosCollection"
+                           Margin="10,10">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                                    Span="2" 
+                                    HorizontalItemSpacing="10"
+                                    VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10"
+                               CornerRadius="15"
+                               BorderColor="Transparent"
+                               BackgroundColor="White"
+                               HasShadow="True">
+                            <VerticalStackLayout Spacing="8">
+
+                                <Image Source="{Binding FotoUrl}"
+                                       Aspect="AspectFill"
+                                       HeightRequest="120"
+                                       WidthRequest="150"
+                                       HorizontalOptions="Fill"
+                                       VerticalOptions="Start">
+                                    <Image.Clip>
+                                        <RoundRectangleGeometry CornerRadius="10" 
+                                                               Rect="0,0,150,120"/>
+                                    </Image.Clip>
+                                </Image>
+
+                                <Label Text="{Binding Nombre}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"/>
+
+                                <Label FontSize="11"
+                                       TextColor="{StaticResource Gray600}"
+                                       LineBreakMode="TailTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding TipoBien}" FontAttributes="Bold"/>
+                                            <Span Text=" • "/>
+                                            <Span Text="{Binding Marca}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <Label Text="{Binding CapacidadText}"
+                                       FontSize="10"
+                                       TextColor="{StaticResource Gray500}"/>
+
+                                <Label Text="{Binding PrecioFormateado}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       Margin="0,5,0,0"/>
+
+                                <Button Text="Comprar"
+                                        FontSize="12"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        Padding="5"
+                                        HeightRequest="35"
+                                        Clicked="OnComprarClicked"
+                                        CommandParameter="{Binding .}"/>
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+    </Grid>
+
+</ContentPage>
