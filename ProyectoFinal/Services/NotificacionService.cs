@@ -99,10 +99,10 @@ public class NotificacionService
 
             var payload = new MailtrapEmailRequest
             {
-                From = new MailtrapSender 
-                { 
-                    Email = "no-reply@demomailtrap.com", // Email por defecto de Mailtrap sandbox
-                    Name = AppConfig.EmailFromName 
+                From = new MailtrapSender
+                {
+                    Email = "hello@demomailtrap.co",
+                    Name = AppConfig.EmailFromName
                 },
                 To = destinatarios,
                 Subject = asunto,
