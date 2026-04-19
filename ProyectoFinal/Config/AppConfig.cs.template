@@ -5,12 +5,12 @@ namespace ProyectoFinal.Config;
 // 2. Reemplaza los valores con tus credenciales reales
 // 3. NO comitees el archivo AppConfig.cs al repositorio
 //
-// Para obtener el API key de Resend:
-//   1. Crea cuenta gratis en https://resend.com
-//   2. Ve a API Keys → Create API Key
-//   3. Copia la clave generada (empieza con "re_")
+// Para obtener el API token de Mailtrap:
+//   1. Crea cuenta gratis en https://mailtrap.io
+//   2. Ve a Sending > API Tokens > Add Token
+//   3. Copia el token generado
 //
-// EmailFrom: usa "onboarding@resend.dev" para pruebas sin configurar dominio propio
+// EmailFromName: nombre que aparece como remitente en el correo
 
 public static class AppConfig
 {
@@ -18,7 +18,7 @@ public static class AppConfig
     public const string SupabaseUrl = "TU_SUPABASE_URL_AQUI";
     public const string SupabaseAnonKey = "TU_SUPABASE_ANON_KEY_AQUI";
 
-    // Resend (notificaciones por correo)
-    public const string ResendApiKey = "re_TU_API_KEY_AQUI";
-    public const string EmailFrom = "Pura Vida Yachts <onboarding@resend.dev>";
+    // Mailtrap (notificaciones por correo)
+    public const string MailtrapApiToken = "TU_MAILTRAP_API_TOKEN_AQUI";
+    public const string EmailFromName = "Pura Vida Yachts";
 }

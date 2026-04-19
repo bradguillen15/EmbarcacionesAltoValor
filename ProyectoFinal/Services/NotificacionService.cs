@@ -111,7 +111,8 @@ public class NotificacionService
             };
 
             using var request = new HttpRequestMessage(HttpMethod.Post, "api/send");
-            request.Headers.Add("Api-Token", AppConfig.MailtrapApiToken);
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AppConfig.MailtrapApiToken);
             request.Content = JsonContent.Create(payload);
 
             var response = await _http.SendAsync(request);
