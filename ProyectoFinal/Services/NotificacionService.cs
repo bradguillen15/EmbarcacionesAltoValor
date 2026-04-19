@@ -9,7 +9,7 @@ public class NotificacionService
 {
     private static readonly HttpClient _http = new()
     {
-        BaseAddress = new Uri("https://send.api.mailtrap.io/")
+        BaseAddress = new Uri("https://api.brevo.com/")
     };
 
     public async Task EnviarNotificacionCompraAsync(Compra compra)
@@ -86,33 +86,24 @@ public class NotificacionService
         {
             string emailSecundario = Preferences.Get("EmailSecundario", string.Empty);
 
-            // Construir lista de destinatarios
-            var destinatarios = new List<MailtrapRecipient> 
-            { 
-                new() { Email = emailDestino }
-            };
-
+            var destinatarios = new List<BrevoRecipient> { new() { Email = emailDestino } };
             if (!string.IsNullOrWhiteSpace(emailSecundario))
-            {
-                destinatarios.Add(new MailtrapRecipient { Email = emailSecundario });
-            }
+                destinatarios.Add(new BrevoRecipient { Email = emailSecundario });
 
-            var payload = new MailtrapEmailRequest
+            var payload = new BrevoEmailRequest
             {
-                From = new MailtrapSender
+                Sender = new BrevoSender
                 {
-                    Email = "hello@demomailtrap.co",
-                    Name = AppConfig.EmailFromName
+                    Email = AppConfig.BrevoSenderEmail,
+                    Name = AppConfig.BrevoSenderName
                 },
                 To = destinatarios,
                 Subject = asunto,
-                Text = cuerpo,
-                Category = "Notificaciones"
+                TextContent = cuerpo
             };
 
-            using var request = new HttpRequestMessage(HttpMethod.Post, "api/send");
-            request.Headers.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AppConfig.MailtrapApiToken);
+            using var request = new HttpRequestMessage(HttpMethod.Post, "v3/smtp/email");
+            request.Headers.Add("api-key", AppConfig.BrevoApiKey);
             request.Content = JsonContent.Create(payload);
 
             var response = await _http.SendAsync(request);
@@ -120,40 +111,35 @@ public class NotificacionService
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[Mailtrap] Error: {response.StatusCode} – {error}");
+                System.Diagnostics.Debug.WriteLine($"[Brevo] Error: {response.StatusCode} – {error}");
             }
             else
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[Mailtrap] Email enviado exitosamente a {emailDestino}");
+                System.Diagnostics.Debug.WriteLine($"[Brevo] Email enviado exitosamente a {emailDestino}");
             }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[Mailtrap] Excepción: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[Brevo] Excepción: {ex.Message}");
         }
     }
 
-    // Clases para el formato de Mailtrap API
-    private class MailtrapEmailRequest
+    private class BrevoEmailRequest
     {
-        [JsonPropertyName("from")]
-        public MailtrapSender From { get; set; } = new();
+        [JsonPropertyName("sender")]
+        public BrevoSender Sender { get; set; } = new();
 
         [JsonPropertyName("to")]
-        public List<MailtrapRecipient> To { get; set; } = new();
+        public List<BrevoRecipient> To { get; set; } = new();
 
         [JsonPropertyName("subject")]
         public string Subject { get; set; } = string.Empty;
 
-        [JsonPropertyName("text")]
-        public string Text { get; set; } = string.Empty;
-
-        [JsonPropertyName("category")]
-        public string Category { get; set; } = string.Empty;
+        [JsonPropertyName("textContent")]
+        public string TextContent { get; set; } = string.Empty;
     }
 
-    private class MailtrapSender
+    private class BrevoSender
     {
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
@@ -162,7 +148,7 @@ public class NotificacionService
         public string Name { get; set; } = string.Empty;
     }
 
-    private class MailtrapRecipient
+    private class BrevoRecipient
     {
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
