@@ -91,7 +91,7 @@ public partial class DetalleCompraPage : ContentPage
 
     private async void OnProgramarPagoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ProgramarPagoPage());
+        await Navigation.PushAsync(new ProgramarPagoPage(_compra, "programada"));
     }
 
     private async void OnVerHistorialClicked(object sender, EventArgs e)
