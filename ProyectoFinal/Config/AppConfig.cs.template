@@ -2,11 +2,25 @@ namespace ProyectoFinal.Config;
 
 // INSTRUCCIONES:
 // 1. Copia este archivo y renómbralo a "AppConfig.cs"
-// 2. Reemplaza los valores de SupabaseUrl y SupabaseAnonKey con tus credenciales reales
+// 2. Reemplaza los valores con tus credenciales reales
 // 3. NO comitees el archivo AppConfig.cs al repositorio
+//
+// Para obtener el API key de Brevo:
+//   1. Crea cuenta gratis en https://brevo.com
+//   2. Ve a Settings > API Keys > Generate a new API key
+//   3. Copia la clave generada
+//
+// BrevoSenderEmail: ve a Senders & IP > Senders > Add a Sender
+//   y verifica el email desde el que quieres enviar (ej. tu Gmail)
 
 public static class AppConfig
 {
+    // Supabase
     public const string SupabaseUrl = "TU_SUPABASE_URL_AQUI";
     public const string SupabaseAnonKey = "TU_SUPABASE_ANON_KEY_AQUI";
+
+    // Brevo (notificaciones por correo)
+    public const string BrevoApiKey = "TU_BREVO_API_KEY_AQUI";
+    public const string BrevoSenderEmail = "TU_EMAIL_VERIFICADO_AQUI";
+    public const string BrevoSenderName = "Pura Vida Yachts";
 }

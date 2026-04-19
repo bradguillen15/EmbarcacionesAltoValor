@@ -125,7 +125,7 @@
                              Color="{StaticResource Gray200}"/>
 
                     <!-- Detalles adicionales -->
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" 
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                           ColumnSpacing="15" RowSpacing="10">
 
                         <Label Grid.Row="0" Grid.Column="0"
@@ -159,6 +159,28 @@
                                FontSize="14"
                                FontAttributes="Bold"
                                TextColor="{StaticResource Gray900}"
+                               HorizontalTextAlignment="End"/>
+
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="📅 Cuota Mensual"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray600}"/>
+                        <Label Grid.Row="3" Grid.Column="1"
+                               x:Name="CuotaMensualLabel"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#4F46E5"
+                               HorizontalTextAlignment="End"/>
+
+                        <Label Grid.Row="4" Grid.Column="0"
+                               Text="💳 Total c/Intereses"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray600}"/>
+                        <Label Grid.Row="4" Grid.Column="1"
+                               x:Name="TotalConInteresesLabel"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#BE123C"
                                HorizontalTextAlignment="End"/>
                     </Grid>
 

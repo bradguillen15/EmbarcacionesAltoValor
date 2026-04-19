@@ -27,6 +27,14 @@ public partial class GestionComprasPage : ContentPage
             LoadingIndicator.IsVisible = true;
             ComprasScrollView.IsVisible = false;
 
+            // Verificar que el usuario esté logueado
+            if (Session.ClienteId <= 0)
+            {
+                await DisplayAlert("Error", "Debe iniciar sesión para ver las compras", "OK");
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
+                return;
+            }
+
             var compras = await _compraService.GetComprasConSaldoByClienteAsync(Session.ClienteId);
 
             if (compras == null || compras.Count == 0)

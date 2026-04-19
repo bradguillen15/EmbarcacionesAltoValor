@@ -43,13 +43,15 @@ public partial class DetalleCompraPage : ContentPage
             : "Sin detalles";
 
         // Información financiera
-        PrecioTotalLabel.Text = $"${_compra.PrecioTotal:N2}";
-        PrimaInicialLabel.Text = $"${_compra.PrimaInicial:N2}";
-        MontoFinanciadoLabel.Text = $"${_compra.MontoFinanciado:N2}";
+        PrecioTotalLabel.Text = $"₡{_compra.PrecioTotal:N2}";
+        PrimaInicialLabel.Text = $"₡{_compra.PrimaInicial:N2}";
+        MontoFinanciadoLabel.Text = $"₡{_compra.MontoFinanciado:N2}";
         PlazoLabel.Text = $"{_compra.PlazoMeses} meses";
         TasaLabel.Text = $"{_compra.TasaInteres}%";
         EstadoLabel.Text = _compra.Estado;
         FechaLabel.Text = _compra.FechaRegistro.ToString("dd/MM/yyyy");
+        CuotaMensualLabel.Text = $"₡{_compra.CuotaMensual:N2}";
+        TotalConInteresesLabel.Text = $"₡{_compra.TotalRealAPagar:N2}";
 
         ActualizarDisplaySaldo();
     }
@@ -58,15 +60,15 @@ public partial class DetalleCompraPage : ContentPage
     {
         if (_compra.SaldoPendiente.HasValue)
         {
-            SaldoPendienteLabel.Text = $"${_compra.SaldoPendiente.Value:N2}";
-            TotalAbonadoLabel.Text = $"${_compra.TotalAbonado:N2}";
+            SaldoPendienteLabel.Text = $"₡{_compra.SaldoPendiente.Value:N2}";
+            TotalAbonadoLabel.Text = $"₡{_compra.TotalAbonado:N2}";
             ProgressBar.Progress = _compra.PorcentajePagado / 100;
             PorcentajePagadoLabel.Text = $"{_compra.PorcentajePagado:F1}% Pagado";
         }
         else
         {
             SaldoPendienteLabel.Text = "Cargando...";
-            TotalAbonadoLabel.Text = "$0.00";
+            TotalAbonadoLabel.Text = "₡0.00";
             ProgressBar.Progress = 0;
             PorcentajePagadoLabel.Text = "0% Pagado";
         }
@@ -89,7 +91,7 @@ public partial class DetalleCompraPage : ContentPage
 
     private async void OnProgramarPagoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new ProgramarPagoPage());
+        await Navigation.PushAsync(new ProgramarPagoPage(_compra, "programada"));
     }
 
     private async void OnVerHistorialClicked(object sender, EventArgs e)

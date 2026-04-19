@@ -33,7 +33,7 @@ public partial class RealizarPagoDirectoPage : ContentPage
             if (compraConSaldo != null && compraConSaldo.SaldoPendiente.HasValue)
             {
                 _saldoPendiente = compraConSaldo.SaldoPendiente.Value;
-                SaldoPendienteLabel.Text = $"Saldo pendiente: ${_saldoPendiente.Value:N2}";
+                SaldoPendienteLabel.Text = $"Saldo pendiente: ₡{_saldoPendiente.Value:N2}";
                 SaldoPendienteLabel.IsVisible = true;
             }
         }
@@ -45,18 +45,23 @@ public partial class RealizarPagoDirectoPage : ContentPage
 
     private void CargarDatos()
     {
-        HeaderLabel.Text = _tipoPago == "extraordinario" 
-            ? "💰 Pago Extraordinario" 
-            : "💳 Pago Mensual";
-
-        if (_compra.Producto != null)
+        if (_tipoPago == "extraordinario")
         {
-            ProductoLabel.Text = $"{_compra.Producto.Nombre} - {_compra.Producto.TipoBien}";
+            HeaderLabel.Text = "💰 Pago Extraordinario";
+            MontoEntry.Placeholder = "Ingrese el monto a abonar";
         }
         else
         {
-            ProductoLabel.Text = $"Compra ID: {_compra.Id}";
+            HeaderLabel.Text = "💳 Pago Mensual";
+            // Pre-llenar con la cuota mensual calculada
+            if (_compra.CuotaMensual > 0)
+                MontoEntry.Text = _compra.CuotaMensual.ToString("F2");
+            MontoEntry.Placeholder = $"Cuota sugerida: ₡{_compra.CuotaMensual:N2}";
         }
+
+        ProductoLabel.Text = _compra.Producto != null
+            ? $"{_compra.Producto.Nombre} - {_compra.Producto.TipoBien}"
+            : $"Compra ID: {_compra.Id}";
     }
 
     private async void OnConfirmarClicked(object sender, EventArgs e)
@@ -77,8 +82,8 @@ public partial class RealizarPagoDirectoPage : ContentPage
         {
             bool pagarTotal = await DisplayAlert(
                 "Monto Excedido", 
-                $"El monto ingresado (${monto:N2}) excede el saldo pendiente (${_saldoPendiente.Value:N2}).\n\n" +
-                $"¿Desea pagar el saldo total de ${_saldoPendiente.Value:N2}?",
+                $"El monto ingresado (₡{monto:N2}) excede el saldo pendiente (₡{_saldoPendiente.Value:N2}).\n\n" +
+                $"¿Desea pagar el saldo total de ₡{_saldoPendiente.Value:N2}?",
                 "Sí, pagar total",
                 "Cancelar"
             );
@@ -98,7 +103,7 @@ public partial class RealizarPagoDirectoPage : ContentPage
 
         var tipoPagoTexto = _tipoPago == "extraordinario" ? "extraordinario" : "mensualidad";
         var confirmar = await DisplayAlert("Confirmar", 
-            $"¿Confirmar {tipoPagoTexto} de ${monto:N2}?", 
+            $"¿Confirmar {tipoPagoTexto} de ₡{monto:N2}?",
             "Sí", "No");
 
         if (!confirmar)
@@ -117,18 +122,22 @@ public partial class RealizarPagoDirectoPage : ContentPage
 
         if (resultado)
         {
+            // Notificación automática en background
+            _ = Task.Run(async () =>
+                await new NotificacionService().EnviarNotificacionAbonoAsync(abono, _compra));
+
             decimal nuevoSaldo = _saldoPendiente.Value - monto;
             string mensaje;
 
             if (nuevoSaldo <= 0)
             {
-                mensaje = "¡Felicidades! 🎉\n\nHa liquidado completamente su compra.\nSaldo pendiente: $0.00";
+                mensaje = "¡Felicidades! 🎉\n\nHa liquidado completamente su compra.\nSaldo pendiente: ₡0.00";
                 _compra.Estado = "liquidado";
                 _compra.SaldoPendiente = 0;
             }
             else
             {
-                mensaje = $"Pago registrado correctamente.\n\nSaldo pendiente: ${nuevoSaldo:N2}";
+                mensaje = $"Pago registrado correctamente.\n\nSaldo pendiente: ₡{nuevoSaldo:N2}";
                 _compra.SaldoPendiente = nuevoSaldo;
             }
 

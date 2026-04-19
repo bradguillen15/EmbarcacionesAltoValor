@@ -2,26 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.AbonosPage"
-             Title="Registro de Abonos">
+             Title="Historial de Abonos"
+             BackgroundColor="{StaticResource LightSea}">
 
-    <VerticalStackLayout
-        Padding="30"
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-        <Label
-            Text="Registro de Abonos"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
+            <!-- Header -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="{StaticResource Primary}"
+                   HasShadow="True">
+                <Label Text="📋 Historial de Abonos"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </Frame>
 
-        <Label
-            Text="Pagina en construccion..."
-            FontSize="16"
-            TextColor="Gray"
-            HorizontalOptions="Center"
-            Margin="0,20,0,0" />
+            <!-- Loading -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="{StaticResource Primary}"
+                               HeightRequest="50"/>
 
-    </VerticalStackLayout>
+            <!-- Sin abonos -->
+            <Frame x:Name="SinAbonosFrame"
+                   IsVisible="False"
+                   Padding="30"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="💸" FontSize="48" HorizontalOptions="Center"/>
+                    <Label Text="No tienes abonos registrados"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray600}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lista de abonos -->
+            <VerticalStackLayout x:Name="AbonosContainer" Spacing="12"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

@@ -4,35 +4,58 @@ namespace ProyectoFinal.Views;
 
 public partial class ProgramarPagoPage : ContentPage
 {
-	public ProgramarPagoPage()
-	{
-		InitializeComponent();
-        BT_Programar_Pago.Clicked += BT_Programar_Pago_Clicked;
-        BtnSalir.Clicked += BtnSalir_Clicked;
+    private readonly Compra _compra;
+    private readonly string _tipoPago;
+    private readonly CompraService _compraService;
+    private decimal? _saldoPendiente;
+    public ProgramarPagoPage(Compra compra, string tipoPago)
+    {
+        InitializeComponent();
+        _compra = compra;
+        _tipoPago = tipoPago;
+        _compraService = new CompraService();
+        CargarDatos();
     }
-
-    //carga la pagina al cargar la aplicacion
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await CargarSaldoAsync();
+    }
 
+    private async Task CargarSaldoAsync()
+    {
         try
         {
-            var service = new CompraService();
-            var compras = await service.GetComprasConSaldoByClienteAsync(Session.ClienteId);
-
-            PickerVehiculo.ItemsSource = compras;
+            var compraConSaldo = await _compraService.GetCompraConSaldoAsync(_compra.Id);
+            if (compraConSaldo != null && compraConSaldo.SaldoPendiente.HasValue)
+            {
+                _saldoPendiente = compraConSaldo.SaldoPendiente.Value;
+                SaldoPendienteLabel.Text = $"Saldo pendiente: ${_saldoPendiente.Value:N2}";
+                SaldoPendienteLabel.IsVisible = true;
+            }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            System.Diagnostics.Debug.WriteLine($"Error al cargar saldo: {ex.Message}");
+        }
+    }
+
+    private void CargarDatos()
+    {
+        if (_compra.Producto != null)
+        {
+            ProductoLabel.Text = $"{_compra.Producto.Nombre} - {_compra.Producto.TipoBien}";
+        }
+        else
+        {
+            ProductoLabel.Text = $"Compra ID: {_compra.Id}";
         }
     }
 
     private async void BT_Programar_Pago_Clicked(object sender, EventArgs e)
     {
         DateTime fechaSeleccionada = (DateTime)BT_FechaPago.Date;
-        string monto = MontoEntry.Text ?? string.Empty;
+        //string monto = MontoEntry.Text ?? string.Empty;
 
         // Validar fecha
         if (fechaSeleccionada <= DateTime.Today)
@@ -41,48 +64,83 @@ public partial class ProgramarPagoPage : ContentPage
             return;
         }
 
-        // Validar vehículo
-        if (PickerVehiculo.SelectedItem == null)
+        if (string.IsNullOrWhiteSpace(MontoEntry.Text))
         {
-            await DisplayAlert("Error", "Por favor seleccione un vehículo", "OK");
+            await DisplayAlert("Error", "Ingrese un monto", "OK");
             return;
         }
 
-        // Validar monto
-        if (!double.TryParse(monto, out double montoNumerico))
+        if (!decimal.TryParse(MontoEntry.Text, out decimal monto) || monto <= 0)
         {
             await DisplayAlert("Error", "Monto inválido", "OK");
             return;
         }
 
-        var compraSeleccionada = (Compra)PickerVehiculo.SelectedItem;
+        if (_saldoPendiente.HasValue && monto > _saldoPendiente.Value)
+        {
+            bool pagarTotal = await DisplayAlert(
+                "Monto Excedido",
+                $"El monto ingresado (${monto:N2}) excede el saldo pendiente (${_saldoPendiente.Value:N2}).\n\n" +
+                $"¿Desea pagar el saldo total de ${_saldoPendiente.Value:N2}?",
+                "Sí, pagar total",
+                "Cancelar"
+            );
 
-        // Crear abono PROGRAMADO
+            if (!pagarTotal)
+                return;
+
+            monto = _saldoPendiente.Value;
+            MontoEntry.Text = monto.ToString("F2");
+        }
+
+        if (MetodoPagoPicker.SelectedIndex < 0)
+        {
+            await DisplayAlert("Error", "Seleccione un método de pago", "OK");
+            return;
+        }
+
+        var tipoPagoTexto = _tipoPago == "extraordinario" ? "extraordinario" : "mensualidad";
+        var confirmar = await DisplayAlert("Confirmar",
+            $"¿Confirmar {tipoPagoTexto} de ${monto:N2}?",
+            "Sí", "No");
+
+        if (!confirmar)
+            return;
+
         var abono = new Abono
         {
-            CompraId = compraSeleccionada.Id,
-            Monto = (decimal)montoNumerico,
-            Tipo = "mensualidad",
-            FechaAbono = fechaSeleccionada 
+            CompraId = _compra.Id,
+            Monto = monto,
+            Tipo = tipoPagoTexto,
+            FechaAbono = fechaSeleccionada
         };
 
-        var service = new AbonoService();
+        var abonoService = new AbonoService();
+        var resultado = await abonoService.InsertAbonoAsync(abono);
 
-        var result = await service.InsertAbonoAsync(abono);
+        if (resultado)
+        {
+            decimal nuevoSaldo = _saldoPendiente.Value - monto;
+            string mensaje;
 
-        if (result)
-        {
-            await DisplayAlert("Confirmación",
-                $"Pago programado para el {fechaSeleccionada:dd/MM/yyyy} correctamente",
-                "OK");
-        }
-        else
-        {
-            await DisplayAlert("Error", "No se pudo programar el pago", "OK");
+            if (nuevoSaldo <= 0)
+            {
+                mensaje = $"¡Felicidades! 🎉\n\n Para el {fechaSeleccionada:dd/MM/yyyy} habrá liquidado completamente su compra.\nSaldo pendiente: $0.00";
+                _compra.Estado = "liquidado";
+                _compra.SaldoPendiente = 0;
+            }
+            else
+            {
+                mensaje = $"Pago registrado correctamente para el {fechaSeleccionada:dd/MM/yyyy}.\n\nSaldo pendiente: ${nuevoSaldo:N2}";
+                _compra.SaldoPendiente = nuevoSaldo;
+            }
+
+            await DisplayAlert("Éxito", mensaje, "OK");
+            await Navigation.PopToRootAsync();
         }
     }
     private async void BtnSalir_Clicked(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GestionComprasPage());
+        await Navigation.PopAsync();
     }
 }

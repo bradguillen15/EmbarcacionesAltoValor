@@ -11,6 +11,7 @@ public class LoginResponse
 //metodo utilizado en compras para obtener el ID del cliente
 public static class Session
 {
-    public static int ClienteId { get; set; }
+    public static long ClienteId { get; set; }
+    public static string ClienteEmail { get; set; } = string.Empty;
 }
 

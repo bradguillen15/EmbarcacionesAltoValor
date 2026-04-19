@@ -1,66 +1,87 @@
-# Pura Vida Yatchs
+# Pura Vida Yachts
 
-**Sistema de gestión financiera para embarcaciones de alto valor**
+App móvil de gestión financiera para compras de embarcaciones recreativas (jet ski, lanchas). Permite registrar compras financiadas, controlar abonos y recibir notificaciones automáticas por correo.
 
-Aplicación móvil desarrollada con .NET MAUI para el control de compras, abonos y reportes de embarcaciones.
+## Stack
 
-## 🚢 Características
+| Capa | Tecnología |
+|---|---|
+| Mobile | .NET 10 MAUI — C# 14 |
+| Backend | Supabase (PostgreSQL + REST API) |
+| Email | Resend API |
+| Plataformas | Android, iOS, macOS Catalyst, Windows |
 
-| Módulo | Estado |
-|--------|--------|
-| Autenticación (login con Supabase) | ✅ Implementado |
-| Gestión de Compras | 🔧 En desarrollo |
-| Registro de Abonos y pagos | 🔧 En desarrollo |
-| Consultas de historial | 🔧 En desarrollo |
-| Reportes financieros | 🔧 En desarrollo |
-| Sistema de notificaciones por email | 🔧 En desarrollo |
+## Arquitectura
 
-## 🛠️ Tecnologías
+La app sigue un patrón de capas simple sin framework MVVM — lógica directamente en code-behind. Los servicios encapsulan las llamadas HTTP a Supabase y Resend.
 
-- .NET 10 / .NET MAUI
-- C# 14.0
-- Supabase (PostgreSQL + REST API)
-- Plataformas: Android, iOS, macOS Catalyst, Windows
+```
+ProyectoFinal/
+├── Config/         # AppConfig.cs (credenciales, gitignored)
+├── Models/         # Compra, Abono, Producto, LoginResponse
+├── Services/       # AuthService, CompraService, AbonoService,
+│                   # ProductoService, NotificacionService
+└── Views/          # Pages XAML + code-behind
+```
 
-## 📋 Requisitos
+**Sesión de usuario:** `Preferences` de MAUI — persiste `UserId`, `UserName`, `UserEmail` y los emails de notificación. Se limpia al cerrar sesión.
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) (v17.13+) con la carga de trabajo **.NET Multi-platform App UI development**
+**Amortización francesa:** cada compra calcula cuota mensual, total con intereses e intereses totales en `Compra.cs` usando:
+
+```
+TasaMensual  = TasaAnual / 12 / 100
+CuotaMensual = MontoFinanciado × TasaMensual / (1 − (1 + TasaMensual)^−PlazoMeses)
+TotalAPagar  = CuotaMensual × PlazoMeses
+```
+
+`TotalConIntereses` se persiste en la tabla `compras` como valor contractual. `SaldoPendiente` se deriva en la vista `vw_compra_con_saldo` como `TotalConIntereses − SUM(abonos)`.
+
+**Notificaciones:** `NotificacionService` hace un POST directo a `api.resend.com/emails` con el API key de Resend. Se dispara automáticamente al registrar una compra o un abono.
+
+## Requisitos
+
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) v17.13+ con workload **.NET MAUI**
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Credenciales de un proyecto en [Supabase](https://supabase.com)
+- Proyecto en [Supabase](https://supabase.com)
+- Cuenta gratuita en [Resend](https://resend.com)
 
-## 🚀 Instalación
+## Setup
+
+### 1. Clonar y restaurar
 
 ```bash
 git clone https://github.com/bradguillen15/EmbarcacionesAltoValor.git
 cd EmbarcacionesAltoValor
 dotnet restore
-dotnet build
 ```
 
-## ⚙️ Configuración de Supabase
+### 2. Credenciales
 
-Antes de ejecutar la aplicación, configura las credenciales de Supabase:
+`AppConfig.cs` está en `.gitignore`. Créalo desde el template:
 
-1. Copia la plantilla y renómbrala:
-   ```bash
-   cp ProyectoFinal/Config/AppConfig.cs.template ProyectoFinal/Config/AppConfig.cs
-   ```
-2. Edita `AppConfig.cs` con tus credenciales:
-   - `SupabaseUrl`: URL de tu proyecto (Settings > API > Project URL)
-   - `SupabaseAnonKey`: Anon/Public key (Settings > API > anon/public)
+```bash
+cp ProyectoFinal/Config/AppConfig.cs.template ProyectoFinal/Config/AppConfig.cs
+```
 
-> **IMPORTANTE:** `AppConfig.cs` está en `.gitignore` y **no debe ser comiteado** al repositorio.
+Llena los 4 valores:
 
-## ▶️ Ejecutar
+```csharp
+// Supabase — Settings > API en el dashboard
+SupabaseUrl     = "https://xxxx.supabase.co"
+SupabaseAnonKey = "eyJ..."
 
-**Visual Studio (recomendado):**
+// Resend — API Keys > Create API Key
+ResendApiKey = "re_xxxxxxxxxxxx"
+EmailFrom    = "Pura Vida Yachts <onboarding@resend.dev>"
+```
 
-1. Abre `ProyectoFinal.slnx` en Visual Studio 2022
-2. Configura Supabase (ver sección anterior)
-3. Selecciona la plataforma (Android / iOS / Windows)
-4. Presiona **F5**
+> `onboarding@resend.dev` funciona sin configurar dominio propio — útil para desarrollo y demos.
 
-**CLI por plataforma:**
+### 3. Ejecutar
+
+**Visual Studio:** abre `ProyectoFinal.slnx`, selecciona plataforma, F5.
+
+**CLI:**
 
 ```bash
 dotnet build -t:Run -f net10.0-android
@@ -69,15 +90,20 @@ dotnet build -t:Run -f net10.0-maccatalyst
 dotnet build -t:Run -f net10.0-windows10.0.19041.0
 ```
 
-## 🗺️ Arquitectura de navegación
+## Navegación
 
 ```
-LoginPage  →  MenuPage  →  GestionComprasPage
-                       →  AbonosPage
-                       →  ConsultasPage
-                       →  ReportePage
-                       →  NotificacionesPage
-                       →  AyudaPage
+LoginPage ←→ RegistroPage
+    ↓
+MenuPage
+    ├── CatalogoProductosPage → RegistrarCompraPage
+    ├── GestionComprasPage → DetalleCompraPage
+    │                            ├── RealizarPagoDirectoPage (mensual / extraordinario)
+    │                            ├── ProgramarPagoPage
+    │                            └── HistorialAbonosPage
+    ├── AbonosPage          — historial consolidado de pagos
+    ├── ConsultasPage       — saldo, abonos y fecha estimada por compra
+    ├── ReportePage         — resumen de todas las compras activas
+    ├── NotificacionesPage  — configurar email primario / secundario
+    └── AyudaPage
 ```
-
-La sesión del usuario (`UserId`, `UserName`) se persiste con la API `Preferences` de MAUI y se limpia al cerrar sesión.

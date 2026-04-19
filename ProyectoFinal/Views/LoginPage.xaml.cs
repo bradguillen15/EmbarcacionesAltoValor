@@ -31,9 +31,13 @@ public partial class LoginPage : ContentPage
 
             if (user != null)
             {
-                Session.ClienteId = (int)user.Id; // guarda el cliente ID para utilizarlo en compras usando el metodo session de LoginResponce.cs
+                Session.ClienteId = user.Id;
+                Session.ClienteEmail = user.Email;
                 Preferences.Set("UserId", user.Id.ToString());
                 Preferences.Set("UserName", user.Nombre);
+                Preferences.Set("UserEmail", user.Email);
+                // Actualizar siempre el EmailPrimario con el correo del usuario logueado
+                Preferences.Set("EmailPrimario", user.Email);
 
                 Application.Current.MainPage = new NavigationPage(new MenuPage());
             }
