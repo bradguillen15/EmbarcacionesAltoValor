@@ -1,103 +1,85 @@
 # Pura Vida Yachts
 
-**Sistema de gestión financiera para embarcaciones de alto valor**
+App móvil de gestión financiera para compras de embarcaciones recreativas (jet ski, lanchas). Permite registrar compras financiadas, controlar abonos y recibir notificaciones automáticas por correo.
 
-Aplicación móvil desarrollada con .NET MAUI que permite a un cliente registrar, administrar y consultar sus compras financiadas de embarcaciones recreativas (jet ski, lanchas). Incluye cálculo real de amortización, control de abonos y notificaciones automáticas por correo.
+## Stack
 
-## Módulos
+| Capa | Tecnología |
+|---|---|
+| Mobile | .NET 10 MAUI — C# 14 |
+| Backend | Supabase (PostgreSQL + REST API) |
+| Email | Resend API |
+| Plataformas | Android, iOS, macOS Catalyst, Windows |
 
-| Módulo | Estado | Descripción |
-|--------|--------|-------------|
-| Login / Registro | ✅ | Autenticación con Supabase, sesión persistente |
-| Catálogo de productos | ✅ | Lista de embarcaciones disponibles con precios |
-| Gestión de compras | ✅ | Registro de compras con calculadora de amortización |
-| Abonos | ✅ | Historial consolidado de todos los pagos |
-| Consultas financieras | ✅ | Saldo, abonos realizados y fecha estimada de liquidación |
-| Reportes | ✅ | Resumen consolidado de todas las compras activas |
-| Notificaciones por correo | ✅ | Envío automático vía SMTP al registrar compras y abonos |
-| Ayuda | ✅ | Contacto con soporte |
+## Arquitectura
 
-## Cálculo de amortización
+La app sigue un patrón de capas simple sin framework MVVM — lógica directamente en code-behind. Los servicios encapsulan las llamadas HTTP a Supabase y Resend.
 
-Cada compra aplica la fórmula estándar de amortización francesa:
+```
+ProyectoFinal/
+├── Config/         # AppConfig.cs (credenciales, gitignored)
+├── Models/         # Compra, Abono, Producto, LoginResponse
+├── Services/       # AuthService, CompraService, AbonoService,
+│                   # ProductoService, NotificacionService
+└── Views/          # Pages XAML + code-behind
+```
+
+**Sesión de usuario:** `Preferences` de MAUI — persiste `UserId`, `UserName`, `UserEmail` y los emails de notificación. Se limpia al cerrar sesión.
+
+**Amortización francesa:** cada compra calcula cuota mensual, total con intereses e intereses totales en `Compra.cs` usando:
 
 ```
 TasaMensual  = TasaAnual / 12 / 100
-CuotaMensual = MontoFinanciado × TasaMensual / (1 − (1 + TasaMensual)^(−PlazoMeses))
+CuotaMensual = MontoFinanciado × TasaMensual / (1 − (1 + TasaMensual)^−PlazoMeses)
 TotalAPagar  = CuotaMensual × PlazoMeses
 ```
 
-El `TotalConIntereses` se guarda en la tabla `compras` al momento del registro (valor contractual). El `SaldoPendiente` se calcula en la vista `vw_compra_con_saldo` como `TotalConIntereses − SUM(abonos)`.
+`TotalConIntereses` se persiste en la tabla `compras` como valor contractual. `SaldoPendiente` se deriva en la vista `vw_compra_con_saldo` como `TotalConIntereses − SUM(abonos)`.
 
-- **Pago mensual:** se pre-llena con la cuota mensual calculada
-- **Pago extraordinario:** monto libre, descuenta directo del saldo
-
-## Tecnologías
-
-- .NET 10 / .NET MAUI — C# 14
-- Supabase (PostgreSQL + REST API)
-- MailKit — envío de notificaciones SMTP
-- Plataformas: Android, iOS, macOS Catalyst, Windows
+**Notificaciones:** `NotificacionService` hace un POST directo a `api.resend.com/emails` con el API key de Resend. Se dispara automáticamente al registrar una compra o un abono.
 
 ## Requisitos
 
-- [Visual Studio 2022](https://visualstudio.microsoft.com/) v17.13+ con la carga de trabajo **.NET Multi-platform App UI development**
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) v17.13+ con workload **.NET MAUI**
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Proyecto activo en [Supabase](https://supabase.com)
-- Cuenta Gmail con [App Password](https://myaccount.google.com/apppasswords) habilitada (para notificaciones)
+- Proyecto en [Supabase](https://supabase.com)
+- Cuenta gratuita en [Resend](https://resend.com)
 
-## Instalación
+## Setup
+
+### 1. Clonar y restaurar
 
 ```bash
 git clone https://github.com/bradguillen15/EmbarcacionesAltoValor.git
 cd EmbarcacionesAltoValor
 dotnet restore
-dotnet build
 ```
 
-## Configuración
+### 2. Credenciales
 
-### 1. AppConfig (Supabase + SMTP)
+`AppConfig.cs` está en `.gitignore`. Créalo desde el template:
 
 ```bash
 cp ProyectoFinal/Config/AppConfig.cs.template ProyectoFinal/Config/AppConfig.cs
 ```
 
-Edita `AppConfig.cs` con tus credenciales:
+Llena los 4 valores:
 
 ```csharp
-// Supabase
+// Supabase — Settings > API en el dashboard
 SupabaseUrl     = "https://xxxx.supabase.co"
 SupabaseAnonKey = "eyJ..."
 
-// Gmail SMTP
-SmtpUser     = "tucorreo@gmail.com"
-SmtpPassword = "app-password-de-16-caracteres"
+// Resend — API Keys > Create API Key
+ResendApiKey = "re_xxxxxxxxxxxx"
+EmailFrom    = "Pura Vida Yachts <onboarding@resend.dev>"
 ```
 
-> `AppConfig.cs` está en `.gitignore` y **no debe comitearse**.
+> `onboarding@resend.dev` funciona sin configurar dominio propio — útil para desarrollo y demos.
 
-### 2. Migración de base de datos
+### 3. Ejecutar
 
-Ejecuta el archivo [`supabase_migration_intereses.sql`](supabase_migration_intereses.sql) en **Supabase Dashboard → SQL Editor**. Este script:
-
-- Agrega la columna `TotalConIntereses` a la tabla `compras`
-- Recalcula el valor para compras existentes
-- Actualiza la vista `vw_compra_con_saldo` para usar ese campo en el cálculo del saldo pendiente
-
-### 3. Gmail App Password
-
-1. Ve a [myaccount.google.com](https://myaccount.google.com) → Seguridad → Verificación en dos pasos
-2. Al final de esa página → **Contraseñas de aplicación**
-3. Genera una para "Correo" y cópiala en `AppConfig.SmtpPassword`
-
-## Ejecutar
-
-**Visual Studio (recomendado):**
-
-1. Abre `ProyectoFinal.slnx`
-2. Selecciona plataforma (Android / iOS / Windows)
-3. Presiona **F5**
+**Visual Studio:** abre `ProyectoFinal.slnx`, selecciona plataforma, F5.
 
 **CLI:**
 
@@ -116,14 +98,12 @@ LoginPage ←→ RegistroPage
 MenuPage
     ├── CatalogoProductosPage → RegistrarCompraPage
     ├── GestionComprasPage → DetalleCompraPage
-    │                            ├── RealizarPagoDirectoPage
+    │                            ├── RealizarPagoDirectoPage (mensual / extraordinario)
     │                            ├── ProgramarPagoPage
     │                            └── HistorialAbonosPage
-    ├── AbonosPage          (historial consolidado de pagos)
-    ├── ConsultasPage       (saldo, abonos, fecha estimada)
-    ├── ReportePage         (resumen de compras activas)
-    ├── NotificacionesPage  (configurar emails de notificación)
+    ├── AbonosPage          — historial consolidado de pagos
+    ├── ConsultasPage       — saldo, abonos y fecha estimada por compra
+    ├── ReportePage         — resumen de todas las compras activas
+    ├── NotificacionesPage  — configurar email primario / secundario
     └── AyudaPage
 ```
-
-La sesión (`UserId`, `UserName`, `UserEmail`) se persiste con la API `Preferences` de MAUI y se limpia al cerrar sesión.

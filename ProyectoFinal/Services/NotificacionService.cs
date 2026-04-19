@@ -1,6 +1,5 @@
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using ProyectoFinal.Config;
 using ProyectoFinal.Models;
 
@@ -8,6 +7,11 @@ namespace ProyectoFinal.Services;
 
 public class NotificacionService
 {
+    private static readonly HttpClient _http = new()
+    {
+        BaseAddress = new Uri("https://api.resend.com/")
+    };
+
     public async Task EnviarNotificacionCompraAsync(Compra compra)
     {
         string emailPrimario = Preferences.Get("EmailPrimario", string.Empty);
@@ -82,25 +86,49 @@ public class NotificacionService
         {
             string emailSecundario = Preferences.Get("EmailSecundario", string.Empty);
 
-            var mensaje = new MimeMessage();
-            mensaje.From.Add(new MailboxAddress(AppConfig.SmtpFromName, AppConfig.SmtpUser));
-            mensaje.To.Add(MailboxAddress.Parse(emailDestino));
-
+            var destinatarios = new List<string> { emailDestino };
             if (!string.IsNullOrWhiteSpace(emailSecundario))
-                mensaje.Cc.Add(MailboxAddress.Parse(emailSecundario));
+                destinatarios.Add(emailSecundario);
 
-            mensaje.Subject = asunto;
-            mensaje.Body = new TextPart("plain") { Text = cuerpo };
+            var payload = new ResendEmailRequest
+            {
+                From = AppConfig.EmailFrom,
+                To = destinatarios,
+                Subject = asunto,
+                Text = cuerpo
+            };
 
-            using var client = new SmtpClient();
-            await client.ConnectAsync(AppConfig.SmtpHost, AppConfig.SmtpPort, SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(AppConfig.SmtpUser, AppConfig.SmtpPassword);
-            await client.SendAsync(mensaje);
-            await client.DisconnectAsync(true);
+            using var request = new HttpRequestMessage(HttpMethod.Post, "emails");
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AppConfig.ResendApiKey);
+            request.Content = JsonContent.Create(payload);
+
+            var response = await _http.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"[Resend] Error: {response.StatusCode} – {error}");
+            }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[NotificacionService] Error enviando email: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[Resend] Excepción: {ex.Message}");
         }
+    }
+
+    private class ResendEmailRequest
+    {
+        [JsonPropertyName("from")]
+        public string From { get; set; } = string.Empty;
+
+        [JsonPropertyName("to")]
+        public List<string> To { get; set; } = new();
+
+        [JsonPropertyName("subject")]
+        public string Subject { get; set; } = string.Empty;
+
+        [JsonPropertyName("text")]
+        public string Text { get; set; } = string.Empty;
     }
 }
