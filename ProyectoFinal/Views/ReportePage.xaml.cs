@@ -29,6 +29,14 @@ public partial class ReportePage : ContentPage
 
         try
         {
+            // Verificar que el usuario esté logueado
+            if (Session.ClienteId <= 0)
+            {
+                await DisplayAlert("Error", "Debe iniciar sesión para ver el reporte", "OK");
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
+                return;
+            }
+
             var compras = await _compraService.GetComprasConSaldoByClienteAsync(Session.ClienteId);
             var activas = compras?.Where(c => c.Estado?.ToLower() == "activo").ToList() ?? new List<Compra>();
 
@@ -126,7 +134,7 @@ public partial class ReportePage : ContentPage
                 }
             }
         });
-        ((Grid)progresoLayout.Children[0]).Children[1].SetValue(Grid.ColumnProperty, 1);
+        Grid.SetColumn((BindableObject)((Grid)progresoLayout.Children[0]).Children[1], 1);
         progresoLayout.Children.Add(new ProgressBar
         {
             Progress = compra.PorcentajePagado / 100,

@@ -17,13 +17,14 @@ public class AuthService
         return results?.FirstOrDefault();
     }
 
-     public async Task<bool> Register(string nombre, string email, string password)
+     public async Task<bool> Register(string nombre, string email, string telefono, string password)
     {
         var body = new
         {
             p_nombre = nombre,
             p_email = email,
-            p_password = password
+            p_password = password,
+            p_telefono = telefono
         };
 
         var response = await _http.PostAsJsonAsync("/rest/v1/rpc/registrar", body);

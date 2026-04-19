@@ -9,7 +9,7 @@ public class NotificacionService
 {
     private static readonly HttpClient _http = new()
     {
-        BaseAddress = new Uri("https://api.resend.com/")
+        BaseAddress = new Uri("https://send.api.mailtrap.io/")
     };
 
     public async Task EnviarNotificacionCompraAsync(Compra compra)
@@ -86,21 +86,32 @@ public class NotificacionService
         {
             string emailSecundario = Preferences.Get("EmailSecundario", string.Empty);
 
-            var destinatarios = new List<string> { emailDestino };
-            if (!string.IsNullOrWhiteSpace(emailSecundario))
-                destinatarios.Add(emailSecundario);
-
-            var payload = new ResendEmailRequest
-            {
-                From = AppConfig.EmailFrom,
-                To = destinatarios,
-                Subject = asunto,
-                Text = cuerpo
+            // Construir lista de destinatarios
+            var destinatarios = new List<MailtrapRecipient> 
+            { 
+                new() { Email = emailDestino }
             };
 
-            using var request = new HttpRequestMessage(HttpMethod.Post, "emails");
-            request.Headers.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AppConfig.ResendApiKey);
+            if (!string.IsNullOrWhiteSpace(emailSecundario))
+            {
+                destinatarios.Add(new MailtrapRecipient { Email = emailSecundario });
+            }
+
+            var payload = new MailtrapEmailRequest
+            {
+                From = new MailtrapSender 
+                { 
+                    Email = "no-reply@demomailtrap.com", // Email por defecto de Mailtrap sandbox
+                    Name = AppConfig.EmailFromName 
+                },
+                To = destinatarios,
+                Subject = asunto,
+                Text = cuerpo,
+                Category = "Notificaciones"
+            };
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, "api/send");
+            request.Headers.Add("Api-Token", AppConfig.MailtrapApiToken);
             request.Content = JsonContent.Create(payload);
 
             var response = await _http.SendAsync(request);
@@ -108,27 +119,51 @@ public class NotificacionService
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[Resend] Error: {response.StatusCode} – {error}");
+                System.Diagnostics.Debug.WriteLine($"[Mailtrap] Error: {response.StatusCode} – {error}");
+            }
+            else
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"[Mailtrap] Email enviado exitosamente a {emailDestino}");
             }
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[Resend] Excepción: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"[Mailtrap] Excepción: {ex.Message}");
         }
     }
 
-    private class ResendEmailRequest
+    // Clases para el formato de Mailtrap API
+    private class MailtrapEmailRequest
     {
         [JsonPropertyName("from")]
-        public string From { get; set; } = string.Empty;
+        public MailtrapSender From { get; set; } = new();
 
         [JsonPropertyName("to")]
-        public List<string> To { get; set; } = new();
+        public List<MailtrapRecipient> To { get; set; } = new();
 
         [JsonPropertyName("subject")]
         public string Subject { get; set; } = string.Empty;
 
         [JsonPropertyName("text")]
         public string Text { get; set; } = string.Empty;
+
+        [JsonPropertyName("category")]
+        public string Category { get; set; } = string.Empty;
+    }
+
+    private class MailtrapSender
+    {
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = string.Empty;
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+    }
+
+    private class MailtrapRecipient
+    {
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = string.Empty;
     }
 }

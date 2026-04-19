@@ -26,9 +26,14 @@ public partial class NotificacionesPage : ContentPage
             return;
         }
 
-        if (!emailPrimario.Contains('@'))
+        // Validación mejorada de email
+        if (!emailPrimario.Contains('@') || 
+            !emailPrimario.Contains('.') ||
+            emailPrimario.IndexOf('@') == 0 || 
+            emailPrimario.IndexOf('@') == emailPrimario.Length - 1 ||
+            emailPrimario.LastIndexOf('.') < emailPrimario.IndexOf('@'))
         {
-            await DisplayAlert("Error", "Ingrese un correo válido.", "OK");
+            await DisplayAlert("Error", "Ingrese un correo válido (ej: usuario@dominio.com).", "OK");
             return;
         }
 

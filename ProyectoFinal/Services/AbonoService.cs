@@ -46,7 +46,7 @@ public class AbonoService
     }
 
     // Obtiene todos los abonos del cliente consolidados desde todas sus compras
-    public async Task<List<(Abono Abono, Compra Compra)>> GetAllAbonosByClienteAsync(int clienteId)
+    public async Task<List<(Abono Abono, Compra Compra)>> GetAllAbonosByClienteAsync(long clienteId)
     {
         var compraService = new CompraService();
         var compras = await compraService.GetComprasConSaldoByClienteAsync(clienteId);

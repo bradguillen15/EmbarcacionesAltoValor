@@ -49,7 +49,7 @@ public partial class ProgramarPagoPage : ContentPage
         }
 
         // Validar monto
-        if (!double.TryParse(monto, out double montoNumerico))
+        if (!decimal.TryParse(monto, out decimal montoNumerico))
         {
             await DisplayAlert("Error", "Monto inválido", "OK");
             return;
@@ -61,7 +61,7 @@ public partial class ProgramarPagoPage : ContentPage
         var abono = new Abono
         {
             CompraId = compraSeleccionada.Id,
-            Monto = (decimal)montoNumerico,
+            Monto = montoNumerico,
             Tipo = "mensualidad",
             FechaAbono = fechaSeleccionada 
         };
@@ -83,6 +83,6 @@ public partial class ProgramarPagoPage : ContentPage
     }
     private async void BtnSalir_Clicked(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GestionComprasPage());
+        await Navigation.PopAsync();
     }
 }

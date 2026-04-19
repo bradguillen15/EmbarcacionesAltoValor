@@ -31,13 +31,13 @@ public partial class LoginPage : ContentPage
 
             if (user != null)
             {
-                Session.ClienteId = (int)user.Id;
+                Session.ClienteId = user.Id;
                 Session.ClienteEmail = user.Email;
                 Preferences.Set("UserId", user.Id.ToString());
                 Preferences.Set("UserName", user.Nombre);
                 Preferences.Set("UserEmail", user.Email);
-                if (string.IsNullOrEmpty(Preferences.Get("EmailPrimario", string.Empty)))
-                    Preferences.Set("EmailPrimario", user.Email);
+                // Actualizar siempre el EmailPrimario con el correo del usuario logueado
+                Preferences.Set("EmailPrimario", user.Email);
 
                 Application.Current.MainPage = new NavigationPage(new MenuPage());
             }

@@ -68,7 +68,7 @@ public partial class DetalleCompraPage : ContentPage
         else
         {
             SaldoPendienteLabel.Text = "Cargando...";
-            TotalAbonadoLabel.Text = "$0.00";
+            TotalAbonadoLabel.Text = "₡0.00";
             ProgressBar.Progress = 0;
             PorcentajePagadoLabel.Text = "0% Pagado";
         }
