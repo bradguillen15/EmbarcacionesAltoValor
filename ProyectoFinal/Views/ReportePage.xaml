@@ -2,26 +2,110 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoFinal.Views.ReportePage"
-             Title="Reporte General">
+             Title="Reporte General"
+             BackgroundColor="{StaticResource LightSea}">
 
-    <VerticalStackLayout
-        Padding="30"
-        VerticalOptions="Center"
-        HorizontalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-        <Label
-            Text="Reporte General"
-            FontSize="28"
-            FontAttributes="Bold"
-            HorizontalOptions="Center" />
+            <!-- Header -->
+            <Frame Padding="20"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="{StaticResource Primary}"
+                   HasShadow="True">
+                <Label Text="📈 Reporte General"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </Frame>
 
-        <Label
-            Text="Pagina en construccion..."
-            FontSize="16"
-            TextColor="Gray"
-            HorizontalOptions="Center"
-            Margin="0,20,0,0" />
+            <!-- Loading -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="{StaticResource Primary}"
+                               HeightRequest="50"/>
 
-    </VerticalStackLayout>
+            <!-- Sin compras -->
+            <Frame x:Name="SinComprasFrame"
+                   IsVisible="False"
+                   Padding="30"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Label Text="📊"
+                           FontSize="48"
+                           HorizontalOptions="Center"/>
+                    <Label Text="No hay compras activas para reportar"
+                           FontSize="16"
+                           TextColor="{StaticResource Gray600}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Resumen global -->
+            <Frame x:Name="ResumenFrame"
+                   IsVisible="False"
+                   Padding="0"
+                   CornerRadius="15"
+                   BorderColor="Transparent"
+                   BackgroundColor="White"
+                   HasShadow="True">
+                <VerticalStackLayout Spacing="0">
+                    <Frame Padding="15,12"
+                           BorderColor="Transparent"
+                           BackgroundColor="{StaticResource DeepOcean}"
+                           HasShadow="False">
+                        <Label Text="📊 Resumen Consolidado"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+                    </Frame>
+                    <VerticalStackLayout Padding="15" Spacing="12">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Frame Grid.Column="0" Padding="12" CornerRadius="10"
+                                   BorderColor="Transparent" BackgroundColor="#FEF2F2" HasShadow="False">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="⏳ Deuda Total" FontSize="11" TextColor="{StaticResource Gray600}"/>
+                                    <Label x:Name="DeudaTotalLabel" FontSize="16" FontAttributes="Bold" TextColor="#DC2626"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                            <Frame Grid.Column="1" Padding="12" CornerRadius="10"
+                                   BorderColor="Transparent" BackgroundColor="#ECFDF5" HasShadow="False">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="✅ Total Pagado" FontSize="11" TextColor="{StaticResource Gray600}"/>
+                                    <Label x:Name="TotalPagadoLabel" FontSize="16" FontAttributes="Bold" TextColor="#059669"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                            <Frame Grid.Column="0" Padding="12" CornerRadius="10"
+                                   BorderColor="Transparent" BackgroundColor="#EEF2FF" HasShadow="False">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="🚤 Compras Activas" FontSize="11" TextColor="{StaticResource Gray600}"/>
+                                    <Label x:Name="ComprasActivasLabel" FontSize="16" FontAttributes="Bold" TextColor="#4F46E5"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                            <Frame Grid.Column="1" Padding="12" CornerRadius="10"
+                                   BorderColor="Transparent" BackgroundColor="#FFF1F2" HasShadow="False">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="💳 Total c/Intereses" FontSize="11" TextColor="{StaticResource Gray600}"/>
+                                    <Label x:Name="TotalConInteresesLabel" FontSize="16" FontAttributes="Bold" TextColor="#BE123C"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lista de compras activas -->
+            <VerticalStackLayout x:Name="ComprasContainer" Spacing="15"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

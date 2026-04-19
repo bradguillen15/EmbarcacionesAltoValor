@@ -48,5 +48,5 @@ public class Producto
     public string CapacidadText => Capacidad.HasValue ? $"{Capacidad} personas" : "No especificado";
 
     [JsonIgnore]
-    public string PrecioFormateado => PrecioBase.HasValue ? $"${PrecioBase.Value:N2}" : "Precio no disponible";
+    public string PrecioFormateado => PrecioBase.HasValue ? $"₡{PrecioBase.Value:N2}" : "Precio no disponible";
 }

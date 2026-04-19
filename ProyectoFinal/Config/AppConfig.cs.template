@@ -2,11 +2,23 @@ namespace ProyectoFinal.Config;
 
 // INSTRUCCIONES:
 // 1. Copia este archivo y renómbralo a "AppConfig.cs"
-// 2. Reemplaza los valores de SupabaseUrl y SupabaseAnonKey con tus credenciales reales
+// 2. Reemplaza los valores con tus credenciales reales
 // 3. NO comitees el archivo AppConfig.cs al repositorio
+//
+// Para SMTP con Gmail:
+//   - Activar "Contraseñas de aplicación" en: myaccount.google.com > Seguridad > Verificación en dos pasos
+//   - Generar una App Password para "Correo" y usarla en SmtpPassword
 
 public static class AppConfig
 {
+    // Supabase
     public const string SupabaseUrl = "TU_SUPABASE_URL_AQUI";
     public const string SupabaseAnonKey = "TU_SUPABASE_ANON_KEY_AQUI";
+
+    // SMTP para notificaciones automáticas (Gmail)
+    public const string SmtpHost = "smtp.gmail.com";
+    public const int SmtpPort = 587;
+    public const string SmtpUser = "TU_CORREO_GMAIL_AQUI";
+    public const string SmtpPassword = "TU_APP_PASSWORD_AQUI";
+    public const string SmtpFromName = "Pura Vida Yachts";
 }

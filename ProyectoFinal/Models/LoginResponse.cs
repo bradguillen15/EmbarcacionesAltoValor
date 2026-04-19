@@ -12,5 +12,6 @@ public class LoginResponse
 public static class Session
 {
     public static int ClienteId { get; set; }
+    public static string ClienteEmail { get; set; } = string.Empty;
 }
 

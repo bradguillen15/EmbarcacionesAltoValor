@@ -10,6 +10,7 @@ public partial class RegistrarCompraPage : ContentPage
     private decimal _precioTotal;
     private decimal _primaPorcentaje = 20;
     private decimal _tasaInteres = 15;
+    private int _plazoMeses = 12;
 
     public RegistrarCompraPage(Producto producto)
     {
@@ -34,7 +35,7 @@ public partial class RegistrarCompraPage : ContentPage
     {
         ProductoNombreLabel.Text = _producto.Nombre;
         ProductoDetalleLabel.Text = $"{_producto.TipoBien} {_producto.Marca} • {_producto.Zona}";
-        PrecioBaseLabel.Text = $"${_precioTotal:N2}";
+        PrecioBaseLabel.Text = $"₡{_precioTotal:N2}";
 
         // Seleccionar 12 meses por defecto
         PlazoPicker.SelectedIndex = 0;
@@ -81,6 +82,7 @@ public partial class RegistrarCompraPage : ContentPage
 
     private void OnPlazoSelectionChanged(object sender, EventArgs e)
     {
+        _plazoMeses = ObtenerPlazoMeses();
         ActualizarCalculos();
     }
 
@@ -89,13 +91,24 @@ public partial class RegistrarCompraPage : ContentPage
         decimal montoPrima = _precioTotal * (_primaPorcentaje / 100);
         decimal montoFinanciar = _precioTotal - montoPrima;
 
-        MontoPrimaLabel.Text = $"${montoPrima:N2}";
-        MontoFinanciarLabel.Text = $"${montoFinanciar:N2}";
+        // Cálculo de amortización
+        decimal tasaMensual = _tasaInteres / 12 / 100;
+        decimal cuotaMensual = tasaMensual > 0 && _plazoMeses > 0
+            ? montoFinanciar * tasaMensual / (1 - (decimal)Math.Pow((double)(1 + tasaMensual), -_plazoMeses))
+            : (_plazoMeses > 0 ? montoFinanciar / _plazoMeses : 0);
+        decimal totalConIntereses = cuotaMensual * _plazoMeses;
+        decimal totalIntereses = totalConIntereses - montoFinanciar;
 
-        ResumenPrecioLabel.Text = $"${_precioTotal:N2}";
-        ResumenPrimaLabel.Text = $"${montoPrima:N2}";
-        ResumenFinanciarLabel.Text = $"${montoFinanciar:N2}";
+        MontoPrimaLabel.Text = $"₡{montoPrima:N2}";
+        MontoFinanciarLabel.Text = $"₡{montoFinanciar:N2}";
+
+        ResumenPrecioLabel.Text = $"₡{_precioTotal:N2}";
+        ResumenPrimaLabel.Text = $"₡{montoPrima:N2}";
+        ResumenFinanciarLabel.Text = $"₡{montoFinanciar:N2}";
         ResumenTasaLabel.Text = $"{_tasaInteres}%";
+        ResumenCuotaLabel.Text = $"₡{cuotaMensual:N2}";
+        ResumenTotalConInteresLabel.Text = $"₡{totalConIntereses:N2}";
+        ResumenInteresesLabel.Text = $"Intereses totales: ₡{totalIntereses:N2}";
 
         if (PlazoPicker.SelectedIndex >= 0)
         {
@@ -118,13 +131,25 @@ public partial class RegistrarCompraPage : ContentPage
             return;
         }
 
+        decimal montoPrimaConfirm = _precioTotal * (_primaPorcentaje / 100);
+        decimal montoFinanciarConfirm = _precioTotal - montoPrimaConfirm;
+        decimal tasaMensualConfirm = _tasaInteres / 12 / 100;
+        decimal cuotaConfirm = tasaMensualConfirm > 0 && _plazoMeses > 0
+            ? montoFinanciarConfirm * tasaMensualConfirm / (1 - (decimal)Math.Pow((double)(1 + tasaMensualConfirm), -_plazoMeses))
+            : (_plazoMeses > 0 ? montoFinanciarConfirm / _plazoMeses : 0);
+        decimal totalConfirm = cuotaConfirm * _plazoMeses;
+
         bool confirmar = await DisplayAlert(
             "Confirmar Compra",
             $"¿Está seguro de realizar esta compra?\n\n" +
             $"Producto: {_producto.Nombre}\n" +
-            $"Total: ${_precioTotal:N2}\n" +
-            $"Prima: ${(_precioTotal * (_primaPorcentaje / 100)):N2}\n" +
-            $"Plazo: {PlazoPicker.Items[PlazoPicker.SelectedIndex]}",
+            $"Precio total: ₡{_precioTotal:N2}\n" +
+            $"Prima inicial: ₡{montoPrimaConfirm:N2}\n" +
+            $"Monto a financiar: ₡{montoFinanciarConfirm:N2}\n" +
+            $"Plazo: {PlazoPicker.Items[PlazoPicker.SelectedIndex]}\n" +
+            $"Tasa anual: {_tasaInteres}%\n" +
+            $"Cuota mensual: ₡{cuotaConfirm:N2}\n" +
+            $"Total a pagar (con intereses): ₡{totalConfirm:N2}",
             "Sí, Confirmar",
             "Cancelar"
         );
@@ -138,6 +163,12 @@ public partial class RegistrarCompraPage : ContentPage
         {
             int plazoMeses = ObtenerPlazoMeses();
             decimal montoPrima = _precioTotal * (_primaPorcentaje / 100);
+            decimal montoFinanciar = _precioTotal - montoPrima;
+            decimal tasaMensual = _tasaInteres / 12 / 100;
+            decimal cuota = tasaMensual > 0 && plazoMeses > 0
+                ? montoFinanciar * tasaMensual / (1 - (decimal)Math.Pow((double)(1 + tasaMensual), -plazoMeses))
+                : (plazoMeses > 0 ? montoFinanciar / plazoMeses : 0);
+            decimal totalConIntereses = cuota * plazoMeses;
 
             var compra = new Compra
             {
@@ -147,6 +178,7 @@ public partial class RegistrarCompraPage : ContentPage
                 PrimaInicial = montoPrima,
                 PlazoMeses = plazoMeses,
                 TasaInteres = _tasaInteres,
+                TotalConIntereses = totalConIntereses,
                 Estado = "activo",
                 FechaRegistro = DateTime.UtcNow
             };
@@ -155,6 +187,13 @@ public partial class RegistrarCompraPage : ContentPage
 
             if (resultado)
             {
+                // Notificación automática en background
+                _ = Task.Run(async () =>
+                {
+                    compra.Producto = _producto;
+                    await new NotificacionService().EnviarNotificacionCompraAsync(compra);
+                });
+
                 await DisplayAlert(
                     "¡Éxito!",
                     "Su compra ha sido registrada exitosamente. Puede comenzar a realizar abonos desde el menú principal.",

@@ -40,19 +40,50 @@ public class Compra
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Producto? Producto { get; set; }
 
+    [JsonPropertyName("TotalConIntereses")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? TotalConIntereses { get; set; }
+
     [JsonIgnore]
-    public string Display => Producto != null 
-        ? $"{Producto.TipoBien} - {Producto.Marca}" 
+    public string Display => Producto != null
+        ? $"{Producto.TipoBien} - {Producto.Marca}"
         : $"Producto ID: {ProductoId}";
 
     [JsonIgnore]
     public decimal MontoFinanciado => PrecioTotal - PrimaInicial;
 
     [JsonIgnore]
-    public decimal TotalAbonado => MontoFinanciado - (SaldoPendiente ?? MontoFinanciado);
+    public decimal TasaMensual => TasaInteres > 0 ? TasaInteres / 12 / 100 : 0;
 
     [JsonIgnore]
-    public double PorcentajePagado => MontoFinanciado > 0 
-        ? (double)((TotalAbonado / MontoFinanciado) * 100) 
+    public decimal CuotaMensual
+    {
+        get
+        {
+            if (PlazoMeses <= 0) return 0;
+            if (TasaMensual <= 0) return MontoFinanciado / PlazoMeses;
+            return MontoFinanciado * TasaMensual /
+                   (1 - (decimal)Math.Pow((double)(1 + TasaMensual), -PlazoMeses));
+        }
+    }
+
+    [JsonIgnore]
+    public decimal TotalRealAPagar => CuotaMensual * PlazoMeses;
+
+    [JsonIgnore]
+    public decimal TotalIntereses => TotalRealAPagar - MontoFinanciado;
+
+    // Base de saldo: usa TotalConIntereses de BD si existe, sino calcula localmente
+    [JsonIgnore]
+    private decimal BaseDeuda => TotalConIntereses.HasValue && TotalConIntereses.Value > 0
+        ? TotalConIntereses.Value
+        : TotalRealAPagar;
+
+    [JsonIgnore]
+    public decimal TotalAbonado => BaseDeuda - (SaldoPendiente ?? BaseDeuda);
+
+    [JsonIgnore]
+    public double PorcentajePagado => BaseDeuda > 0
+        ? (double)((TotalAbonado / BaseDeuda) * 100)
         : 0;
 }
